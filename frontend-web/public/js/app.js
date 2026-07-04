@@ -10,7 +10,9 @@
   /* ---------- Parse hash -> route ---------- */
   function parse() {
     var h = (location.hash || "#/").replace(/^#/, "");
-    var parts = h.split("/").filter(Boolean);         // ["book","3"]
+    var qi = h.indexOf("?");
+    var pathOnly = qi >= 0 ? h.slice(0, qi) : h;
+    var parts = pathOnly.split("/").filter(Boolean);   // ["book","3"] (no query)
     var name = parts[0] || "home";
     return { name: name, params: parts.slice(1), raw: h };
   }
@@ -59,13 +61,13 @@
     $footer.innerHTML =
       '<div class="wrap foot-inner">' +
       '  <div class="foot-brand"><span class="brand">LIBRUMI<span>.</span></span>' +
-      '    <p>A public digital library — borrow good books the easy way.</p></div>' +
+      '    <p>A public digital library - borrow good books the easy way.</p></div>' +
       '  <div class="foot-cols">' +
       '    <div><h4>Explore</h4><a data-nav="/catalog">Catalog</a><a data-nav="/about">About</a><a data-nav="/about#contact">Contact</a></div>' +
       '    <div><h4>Account</h4><a data-nav="/login">Sign in</a><a data-nav="/account">Profile</a></div>' +
       '  </div>' +
       '</div>' +
-      '<div class="wrap foot-bottom">© ' + new Date().getFullYear() + ' Librumi · Web Programming coursework project.</div>';
+      '<div class="wrap foot-bottom">© ' + new Date().getFullYear() + ' Librumi</div>';
   }
 
   /* ---------- Navigate ---------- */

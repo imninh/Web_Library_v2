@@ -15,6 +15,25 @@ router.get("/stats/views", async (req, res, next) => {
   try { res.json({ view_count: await getViews() }); } catch (e) { next(e); }
 });
 
+/* Số liệu công khai cho trang About (không cần auth) */
+router.get("/stats/summary", async (req, res, next) => {
+  try {
+    const one = (sql, p = []) => db.get(sql, p);
+    const [views, books, copies, reviews] = await Promise.all([
+      getViews(),
+      one("SELECT COUNT(*) c FROM books"),
+      one("SELECT COUNT(*) c FROM book_copies"),
+      one("SELECT COUNT(*) c FROM comments WHERE hidden = 0")
+    ]);
+    res.json({
+      view_count: views,
+      total_books: books.c,
+      total_copies: copies.c,
+      total_reviews: reviews.c
+    });
+  } catch (e) { next(e); }
+});
+
 router.post("/stats/views", async (req, res, next) => {
   try {
     await db.run("UPDATE site_stats SET view_count = view_count + 1 WHERE id = 1");

@@ -129,6 +129,13 @@
       if (this.online) { try { return (await window.api.get("/stats/views")).view_count || 0; } catch (e) { return 0; } }
       return 18423;
     },
+    async statsSummary() {
+      if (this.online) {
+        try { return await window.api.get("/stats/summary"); }
+        catch (e) { return { view_count: 0, total_books: 0, total_copies: 0, total_reviews: 0 }; }
+      }
+      return { view_count: 18423, total_books: 8, total_copies: 24, total_reviews: 12 };
+    },
     async bumpView() {
       if (this.online) { try { await window.api.post("/stats/views", {}); } catch (e) {} }
     },

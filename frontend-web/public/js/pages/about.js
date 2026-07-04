@@ -12,7 +12,7 @@
   }
 
   window.Pages.about = async function () {
-    var views = await window.Store.views();
+    var s = await window.Store.statsSummary();
     var html =
     '<section class="wrap section">' +
     '  <div style="max-width:680px" data-rev="left">' +
@@ -21,10 +21,10 @@
     '    <p style="font-size:18px;line-height:1.7;color:var(--ink-soft)">Librumi is a public digital library on a mission to bring great books closer to the community. We believe borrowing books should be simple, free, and friendly.</p>' +
     '  </div>' +
     '  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:36px" class="about-stats">' +
-        statCard(8, "Titles", "rgba(207,224,33,.18)", "#5f6a11") +
-        statCard(24, "Copies", "rgba(147,161,99,.2)", "#4c5a2b") +
-        statCard(120, "Readers", "rgba(232,115,90,.14)", "#b1442c") +
-        statCard(views, "Visits", "rgba(27,58,49,.06)", "#1b3a31") +
+        statCard(s.total_books, "Titles", "rgba(207,224,33,.18)", "#5f6a11") +
+        statCard(s.total_copies, "Copies", "rgba(147,161,99,.2)", "#4c5a2b") +
+        statCard(s.total_reviews, "Reviews", "rgba(232,115,90,.14)", "#b1442c") +
+        statCard(s.view_count, "Visits", "rgba(27,58,49,.06)", "#1b3a31") +
     '  </div>' +
 
     /* ---- Contact ---- */
