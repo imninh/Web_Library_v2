@@ -24,7 +24,6 @@ npm start
 
 Mở trình duyệt: **http://localhost:4000**. Muốn đổi cổng: `PORT=5000 npm start`.
 
-> Cần file `backend/.env` với `DATABASE_URL` trỏ tới Postgres (Supabase hoặc local). Xem chi tiết trong [`docs/Ke_hoach_Deploy.md`](docs/Ke_hoach_Deploy.md).
 
 ## Hướng dẫn sử dụng
 
@@ -39,6 +38,5 @@ Mở trình duyệt: **http://localhost:4000**. Muốn đổi cổng: `PORT=5000
 ```
 backend/           # API server
 frontend-web/      # Website
-frontend-mobile/   # Ứng dụng di động
-docs/              # Tài liệu
+frontend-mobile/   # Ứng dụng di động          
 ```
