@@ -9,7 +9,9 @@
       "backgroundColor": "#faf8f2",
       "resizeMode": "contain"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.librumi.mobile"
@@ -22,6 +24,9 @@
     },
     "web": {
       "bundler": "metro"
-    }
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }

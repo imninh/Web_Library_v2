@@ -52,14 +52,16 @@ export type Loan = {
   created_at: string;
 };
 
-export type RootStackParamList = {
-  Tabs: undefined;
-  Book: { id: number };
-};
+import type { NavigatorScreenParams } from "@react-navigation/native";
 
 export type TabParamList = {
   Home: undefined;
   Search: undefined;
   Card: undefined;
   Profile: undefined;
+};
+
+export type RootStackParamList = {
+  Tabs: NavigatorScreenParams<TabParamList> | undefined;
+  Book: { id: number };
 };
