@@ -1,4 +1,4 @@
--- Librumi schema — PostgreSQL (Supabase). Idempotent.
+-- Librumi schema - PostgreSQL (Supabase). Idempotent.
 CREATE TABLE IF NOT EXISTS users (
   id         SERIAL PRIMARY KEY,
   username   TEXT NOT NULL UNIQUE,

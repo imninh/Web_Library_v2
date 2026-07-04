@@ -1,4 +1,4 @@
-/* Adapter Postgres (Supabase) — interface async: query/get/run/tx/init.
+/* Adapter Postgres (Supabase) - interface async: query/get/run/tx/init.
    Tự dịch cú pháp kiểu SQLite sang Postgres để hạn chế sửa câu SQL:
    - "?"                       -> $1,$2,...
    - datetime('now')           -> now()

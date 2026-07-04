@@ -1,4 +1,4 @@
-/* Librumi backend — khởi tạo app, middleware, mount routes, listen (spec §2.2). */
+/* Librumi backend - khởi tạo app, middleware, mount routes, listen (spec §2.2). */
 "use strict";
 const express = require("express");
 const path = require("path");

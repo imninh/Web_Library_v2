@@ -1,4 +1,4 @@
-/* Tồn kho suy diễn & điều hoà bản sao (spec §7.3, §7.4) — async cho Postgres. */
+/* Tồn kho suy diễn & điều hoà bản sao (spec §7.3, §7.4) - async cho Postgres. */
 "use strict";
 const db = require("../db");
 

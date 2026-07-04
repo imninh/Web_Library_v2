@@ -1,5 +1,5 @@
 /* ============================================================
-   Librumi — About & Contact (with feedback form — coursework)
+   Librumi - About & Contact (with feedback form - coursework)
    ============================================================ */
 (function () {
   "use strict";
@@ -31,7 +31,7 @@
     '  <div id="contact" style="display:grid;grid-template-columns:0.9fr 1.1fr;gap:44px;align-items:start;margin-top:64px" class="contact-wrap">' +
     '    <div data-rev>' +
     '      <h2 class="section-title split-title" style="text-align:left;font-size:30px"><span class="linew">Get in touch</span></h2>' +
-    '      <p style="color:var(--ink-soft);line-height:1.7;margin-top:12px">Have a question, feedback, or a partnership idea? Drop us a few lines — the Librumi team is always listening.</p>' +
+    '      <p style="color:var(--ink-soft);line-height:1.7;margin-top:12px">Have a question, feedback, or a partnership idea? Drop us a few lines - the Librumi team is always listening.</p>' +
     '      <ul class="contact-lines" style="list-style:none;padding:0;margin:22px 0 0;display:flex;flex-direction:column;gap:12px;color:var(--ink)">' +
     '        <li style="display:flex;align-items:center;gap:12px">' +
     '          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' +

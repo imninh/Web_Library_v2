@@ -1,4 +1,4 @@
-/* Bình luận & đánh giá (spec §6.4) — async cho Postgres. */
+/* Bình luận & đánh giá (spec §6.4) - async cho Postgres. */
 "use strict";
 const express = require("express");
 const db = require("../../db");
@@ -9,7 +9,7 @@ const { rateLimit } = require("../../middleware/rateLimit");
 const router = express.Router();
 const commentLimiter = rateLimit({ name: "comment", windowMs: 10 * 60 * 1000, max: 10 });
 
-/* GET /api/books/:id/comments — công khai (hidden=0) */
+/* GET /api/books/:id/comments - công khai (hidden=0) */
 router.get("/books/:id/comments", async (req, res, next) => {
   try {
     const items = await db.query(
@@ -20,7 +20,7 @@ router.get("/books/:id/comments", async (req, res, next) => {
   } catch (e) { next(e); }
 });
 
-/* POST /api/books/:id/comments — gửi bình luận (khách) */
+/* POST /api/books/:id/comments - gửi bình luận (khách) */
 router.post("/books/:id/comments", commentLimiter, async (req, res, next) => {
   try {
     const bookId = req.params.id;
@@ -47,7 +47,7 @@ router.post("/books/:id/comments", commentLimiter, async (req, res, next) => {
   } catch (e) { next(e); }
 });
 
-/* GET /api/reviews — review công khai mới nhất trên toàn site + tóm tắt (khách) */
+/* GET /api/reviews - review công khai mới nhất trên toàn site + tóm tắt (khách) */
 router.get("/reviews", async (req, res, next) => {
   try {
     const limit = validate.clampInt(req.query.limit, 1, 30, 9);
@@ -61,7 +61,7 @@ router.get("/reviews", async (req, res, next) => {
   } catch (e) { next(e); }
 });
 
-/* GET /api/admin/comments (admin) — toàn bộ */
+/* GET /api/admin/comments (admin) - toàn bộ */
 router.get("/admin/comments", requireAdmin, async (req, res, next) => {
   try {
     const where = [], params = [];
@@ -77,7 +77,7 @@ router.get("/admin/comments", requireAdmin, async (req, res, next) => {
   } catch (e) { next(e); }
 });
 
-/* PATCH /api/comments/:id/visibility (admin) — ẩn/hiện */
+/* PATCH /api/comments/:id/visibility (admin) - ẩn/hiện */
 router.patch("/comments/:id/visibility", requireAdmin, async (req, res, next) => {
   try {
     const c = await db.get("SELECT id FROM comments WHERE id = ?", [req.params.id]);

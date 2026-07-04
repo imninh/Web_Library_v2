@@ -1,5 +1,5 @@
 /* ============================================================
-   Librumi — Book detail page (content by id) + comments/ratings
+   Librumi - Book detail page (content by id) + comments/ratings
    ============================================================ */
 (function () {
   "use strict";
@@ -18,7 +18,7 @@
           try {
             await window.Store.requestLoan(b.id, due);
             close();
-            U.toast("Borrow request sent — awaiting admin approval.", "success");
+            U.toast("Borrow request sent - awaiting admin approval.", "success");
           } catch (e) {
             U.toast(e.message, "error");
             if (e.status === 403 && /profile/i.test(e.message)) { close(); U.go("/account"); }

@@ -1,4 +1,4 @@
-/* Hồ sơ bạn đọc (spec §6.2) — async cho Postgres. */
+/* Hồ sơ bạn đọc (spec §6.2) - async cho Postgres. */
 "use strict";
 const express = require("express");
 const db = require("../../db");

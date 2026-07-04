@@ -1,5 +1,5 @@
 /* ============================================================
-   Librumi — Home + Catalog pages
+   Librumi - Home + Catalog pages
    ============================================================ */
 (function () {
   "use strict";
@@ -39,7 +39,7 @@
     var revPalette = ["#93a163", "#e8735a", "#4a6c8c", "#a0553f", "#6b7a8f", "#527a5b"];
     var reviewsHtml = revItems.length
       ? revItems.map(function (r, i) { return review(r.name, U.ago(r.created_at), U.truncate(r.content, 150), r.rating, revPalette[i % revPalette.length]); }).join("")
-      : '<div class="tst-card" data-rev style="grid-column:1/-1;text-align:center;color:var(--ink-soft)">No reviews yet — be the first to review a book!</div>';
+      : '<div class="tst-card" data-rev style="grid-column:1/-1;text-align:center;color:var(--ink-soft)">No reviews yet - be the first to review a book!</div>';
     var sum = rev.summary || { count: 0, average: 0 };
     var summaryHtml = sum.count > 0
       ? '<div data-rev style="text-align:center;margin-top:30px;font-family:var(--font-head);font-weight:800;font-size:22px;color:var(--ink)">' + sum.average + ' <span style="letter-spacing:2px">★★★★★</span>' +
@@ -59,12 +59,12 @@
     '  <div class="hero-copy hero-copy--readers">' +
     '    <span class="eyebrow" style="color:rgba(255,255,255,.85)">Public Digital Library</span>' +
     '    <h1 class="split-title"><span class="linew">Borrow good books,</span><span class="linew">the easy way.</span></h1>' +
-    '    <p>Reserve a copy online, pick it up when you are ready, and return it when you are done — no fees, no fuss.</p>' +
+    '    <p>Reserve a copy online, pick it up when you are ready, and return it when you are done - no fees, no fuss.</p>' +
     '  </div>' +
     '  <div class="hero-copy hero-copy--kids">' +
     '    <span class="eyebrow" style="color:rgba(255,255,255,.85)">Little Readers&#39; Corner</span>' +
     '    <h1 style="font-family:var(--font-head);font-weight:800;font-size:52px;line-height:1.02;letter-spacing:-.02em;color:var(--cream);margin:0">Big stories for<br>little readers.</h1>' +
-    '    <p>Picture books, first chapters and bedtime favourites — all ready to reserve for your young reader.</p>' +
+    '    <p>Picture books, first chapters and bedtime favourites - all ready to reserve for your young reader.</p>' +
     '  </div>' +
     '  <div class="hero-foot">' +
     '    <button class="btn-cream" data-magnetic="0.3" data-nav="/catalog"><span id="hero-cta">Browse the catalog</span> <span class="pill">' + U.arrow("#1b3a31", 20) + '</span></button>' +
@@ -116,7 +116,7 @@
     '    <div class="benefit-grid stagger">' +
           benefit("1", "Completely free", "No membership fees and no surprise late charges. A public library in the truest sense.") +
           benefit("2", "Reserve online", "Hold a copy in just a few clicks and pick it up at the desk whenever suits you.") +
-          benefit("3", "A rich collection", "From fiction and science to cooking and technology — there is always a book for you.") +
+          benefit("3", "A rich collection", "From fiction and science to cooking and technology - there is always a book for you.") +
           benefit("4", "Friendly reminders", "Clear due dates and gentle nudges so returning on time is effortless.") +
     '    </div>' +
     '  </div>' +
@@ -138,7 +138,7 @@
     '  <div class="faq" data-rev style="margin:0">' +
         faq("Is borrowing free?", "Completely free. You only need an account and a valid reader profile.") +
         faq("How long can I keep a book?", "By default each loan has a due date you choose when reserving, and you may be reminded as it approaches.") +
-        faq("Can I reserve for my child?", "Yes — switch the hero to the Little Readers' Corner, or filter the catalog for children's titles.") +
+        faq("Can I reserve for my child?", "Yes - switch the hero to the Little Readers' Corner, or filter the catalog for children's titles.") +
         faq("How do I become an administrator?", "Admin accounts are granted by the library. Demo account: admin / admin123.") +
     '  </div>' +
     '</section>';

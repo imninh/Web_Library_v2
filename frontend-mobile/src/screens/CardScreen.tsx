@@ -87,7 +87,7 @@ export function CardScreen({ navigation }: { navigation: BottomTabNavigationProp
                     <View key={l.id} style={styles.loanCard}>
                       <View style={{ flex: 1, minWidth: 0 }}>
                         <Text numberOfLines={1} style={styles.loanTitle}>{l.book_title ?? "Book #" + l.book_id}</Text>
-                        <Text style={styles.loanMeta}>Return by {l.due_date ?? "—"}</Text>
+                        <Text style={styles.loanMeta}>Return by {l.due_date ?? "-"}</Text>
                       </View>
                       <View style={[styles.statusPill, { backgroundColor: m.bg }]}>
                         <Text style={[styles.statusText, { color: m.color }]}>{m.label.toUpperCase()}</Text>

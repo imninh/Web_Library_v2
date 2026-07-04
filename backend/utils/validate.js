@@ -1,4 +1,4 @@
-/* Chuẩn hoá & kiểm tra đầu vào — TỰ VIẾT (spec §9.1). */
+/* Chuẩn hoá & kiểm tra đầu vào - TỰ VIẾT (spec §9.1). */
 "use strict";
 
 function cleanText(value, maxLen) {
@@ -36,7 +36,7 @@ function sanitizeImage(v) {
 }
 
 /* Lọc từ cấm (danh sách cấu hình được) */
-const BANNED = ["badword1", "badword2", "spamlink"]; // demo — mở rộng khi cần
+const BANNED = ["badword1", "badword2", "spamlink"]; // demo - mở rộng khi cần
 function hasBannedWord(text) {
   const t = String(text || "").toLowerCase();
   return BANNED.some(w => t.indexOf(w) >= 0);

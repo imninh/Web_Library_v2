@@ -1,5 +1,5 @@
 /* ============================================================
-   Librumi — App shell & Router (SPA, hash-based, tự viết)
+   Librumi - App shell & Router (SPA, hash-based, tự viết)
    ============================================================ */
 (function () {
   "use strict";

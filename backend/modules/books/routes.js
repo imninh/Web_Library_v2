@@ -1,4 +1,4 @@
-/* Sách & danh mục (spec §6.3, §7.4) — async cho Postgres. */
+/* Sách & danh mục (spec §6.3, §7.4) - async cho Postgres. */
 "use strict";
 const express = require("express");
 const db = require("../../db");
@@ -123,7 +123,7 @@ router.put("/books/:id", requireAdmin, async (req, res, next) => {
   } catch (e) { next(e); }
 });
 
-/* DELETE /api/books/:id (admin) — chặn nếu còn phiếu/bản sao đang hoạt động */
+/* DELETE /api/books/:id (admin) - chặn nếu còn phiếu/bản sao đang hoạt động */
 router.delete("/books/:id", requireAdmin, async (req, res, next) => {
   try {
     const id = req.params.id;

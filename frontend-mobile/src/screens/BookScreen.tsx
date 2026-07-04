@@ -70,7 +70,7 @@ export function BookScreen({ route, navigation }: Props) {
   const tapBorrow = () => {
     if (!user) return navigation.navigate("Tabs", { screen: "Profile" });
     if (!user.profile_complete) return toast("Complete your profile first.", "err");
-    if (user.account_status === "blocked") return toast("Account locked — return an overdue book.", "err");
+    if (user.account_status === "blocked") return toast("Account locked - return an overdue book.", "err");
     if (!book || book.stock <= 0) return toast("All copies are on loan.", "err");
     setBorrowOpen(true);
   };

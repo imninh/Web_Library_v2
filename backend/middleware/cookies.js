@@ -1,4 +1,4 @@
-/* Parse & set cookie — TỰ VIẾT (không dùng cookie-parser). */
+/* Parse & set cookie - TỰ VIẾT (không dùng cookie-parser). */
 "use strict";
 const env = require("../config/env");
 

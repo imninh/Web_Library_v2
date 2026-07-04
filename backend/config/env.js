@@ -2,7 +2,7 @@
 "use strict";
 const path = require("path");
 
-// Đọc .env ở backend/ (nếu có) — không lỗi nếu thiếu.
+// Đọc .env ở backend/ (nếu có) - không lỗi nếu thiếu.
 try { require("dotenv").config({ path: path.join(__dirname, "..", ".env") }); } catch (_) {}
 
 const NODE_ENV = process.env.NODE_ENV || "development";

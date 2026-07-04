@@ -15,12 +15,12 @@ const DEMO_BOOKS = [
 ];
 
 const DEMO_KIDS_BOOKS = [
-  { title: "Where the Wild Things Are", author: "Maurice Sendak", category: "Children's Books", year: 1963, stock: 4, featured: 1, description: "Một Max nghịch ngợm bị phạt về phòng và bắt đầu chuyến phiêu lưu đến vùng đất của những con quái vật hoang dã — một tuyệt tác tranh minh hoạ cho trẻ nhỏ." },
-  { title: "The Very Hungry Caterpillar", author: "Eric Carle", category: "Children's Books", year: 1969, stock: 5, featured: 1, description: "Chú sâu bé nhỏ ăn dần qua từng ngày trong tuần — cuốn sách tranh kinh điển dạy đếm, dạy màu và dạy cả sự kiên nhẫn." },
-  { title: "Goodnight Moon", author: "Margaret Wise Brown", category: "Children's Books", year: 1947, stock: 3, featured: 0, description: "Một bài thơ nhẹ nhàng nói lời chúc ngủ ngon với từng đồ vật trong căn phòng lớn màu xanh — hoàn hảo cho giờ đi ngủ." },
-  { title: "The Gruffalo", author: "Julia Donaldson", category: "Children's Books", year: 1999, stock: 4, featured: 1, description: "Chú chuột nhỏ dùng trí thông minh để đánh lừa cả rừng — kể cả con Gruffalo đáng sợ mà chú tưởng chỉ có trong tưởng tượng." },
-  { title: "Matilda", author: "Roald Dahl", category: "Children's Books", year: 1988, stock: 3, featured: 0, description: "Cô bé Matilda thông minh phi thường dùng phép thuật và trí tuệ để đối đầu với người lớn khắc nghiệt — một câu chuyện tôn vinh sách và lòng dũng cảm." },
-  { title: "Charlotte's Web", author: "E. B. White", category: "Children's Books", year: 1952, stock: 4, featured: 0, description: "Tình bạn giữa chú lợn Wilbur và cô nhện Charlotte — một câu chuyện dịu dàng về tình yêu thương, sự sống và những lời tạm biệt." }
+  { title: "Where the Wild Things Are", author: "Maurice Sendak", category: "Children's Books", year: 1963, stock: 4, featured: 1, description: "Một Max nghịch ngợm bị phạt về phòng và bắt đầu chuyến phiêu lưu đến vùng đất của những con quái vật hoang dã - một tuyệt tác tranh minh hoạ cho trẻ nhỏ." },
+  { title: "The Very Hungry Caterpillar", author: "Eric Carle", category: "Children's Books", year: 1969, stock: 5, featured: 1, description: "Chú sâu bé nhỏ ăn dần qua từng ngày trong tuần - cuốn sách tranh kinh điển dạy đếm, dạy màu và dạy cả sự kiên nhẫn." },
+  { title: "Goodnight Moon", author: "Margaret Wise Brown", category: "Children's Books", year: 1947, stock: 3, featured: 0, description: "Một bài thơ nhẹ nhàng nói lời chúc ngủ ngon với từng đồ vật trong căn phòng lớn màu xanh - hoàn hảo cho giờ đi ngủ." },
+  { title: "The Gruffalo", author: "Julia Donaldson", category: "Children's Books", year: 1999, stock: 4, featured: 1, description: "Chú chuột nhỏ dùng trí thông minh để đánh lừa cả rừng - kể cả con Gruffalo đáng sợ mà chú tưởng chỉ có trong tưởng tượng." },
+  { title: "Matilda", author: "Roald Dahl", category: "Children's Books", year: 1988, stock: 3, featured: 0, description: "Cô bé Matilda thông minh phi thường dùng phép thuật và trí tuệ để đối đầu với người lớn khắc nghiệt - một câu chuyện tôn vinh sách và lòng dũng cảm." },
+  { title: "Charlotte's Web", author: "E. B. White", category: "Children's Books", year: 1952, stock: 4, featured: 0, description: "Tình bạn giữa chú lợn Wilbur và cô nhện Charlotte - một câu chuyện dịu dàng về tình yêu thương, sự sống và những lời tạm biệt." }
 ];
 
 const DEMO_REVIEWS = [

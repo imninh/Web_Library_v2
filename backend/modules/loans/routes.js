@@ -1,4 +1,4 @@
-/* Phiếu mượn (spec §6.5, §7.1, §7.2) — async cho Postgres. */
+/* Phiếu mượn (spec §6.5, §7.1, §7.2) - async cho Postgres. */
 "use strict";
 const express = require("express");
 const db = require("../../db");
@@ -15,7 +15,7 @@ async function loanView(l) {
   return l;
 }
 
-/* POST /api/loans (user) — gửi yêu cầu mượn (§7.2) */
+/* POST /api/loans (user) - gửi yêu cầu mượn (§7.2) */
 router.post("/loans", requireAuth, async (req, res, next) => {
   try {
     await overdueAudit.run();
@@ -73,7 +73,7 @@ router.get("/loans/me", requireAuth, async (req, res, next) => {
   } catch (e) { next(e); }
 });
 
-/* GET /api/admin/loans (admin) — ưu tiên pending, overdue */
+/* GET /api/admin/loans (admin) - ưu tiên pending, overdue */
 router.get("/admin/loans", requireAdmin, async (req, res, next) => {
   try {
     await overdueAudit.run();
@@ -86,7 +86,7 @@ router.get("/admin/loans", requireAdmin, async (req, res, next) => {
   } catch (e) { next(e); }
 });
 
-/* PATCH /api/admin/loans/:id/status (admin) — duyệt/từ chối/trả (§7.1) */
+/* PATCH /api/admin/loans/:id/status (admin) - duyệt/từ chối/trả (§7.1) */
 router.patch("/admin/loans/:id/status", requireAdmin, async (req, res, next) => {
   try {
     const loan = await db.get("SELECT * FROM loans WHERE id = ?", [req.params.id]);
@@ -129,7 +129,7 @@ router.patch("/admin/loans/:id/status", requireAdmin, async (req, res, next) => 
   } catch (e) { next(e); }
 });
 
-/* DELETE /api/admin/loans/:id (admin) — không xoá phiếu đang mượn/quá hạn */
+/* DELETE /api/admin/loans/:id (admin) - không xoá phiếu đang mượn/quá hạn */
 router.delete("/admin/loans/:id", requireAdmin, async (req, res, next) => {
   try {
     const loan = await db.get("SELECT status FROM loans WHERE id = ?", [req.params.id]);
@@ -141,7 +141,7 @@ router.delete("/admin/loans/:id", requireAdmin, async (req, res, next) => {
   } catch (e) { next(e); }
 });
 
-/* POST /api/admin/overdue-audit (admin) — chạy thủ công */
+/* POST /api/admin/overdue-audit (admin) - chạy thủ công */
 router.post("/admin/overdue-audit", requireAdmin, async (req, res, next) => {
   try { res.json(await overdueAudit.run()); } catch (e) { next(e); }
 });

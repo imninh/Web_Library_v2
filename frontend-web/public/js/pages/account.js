@@ -1,5 +1,5 @@
 /* ============================================================
-   Librumi — Account (reader profile + my loans)
+   Librumi - Account (reader profile + my loans)
    ============================================================ */
 (function () {
   "use strict";

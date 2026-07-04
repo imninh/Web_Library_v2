@@ -1,5 +1,5 @@
 /* ============================================================
-   Librumi — Store: client state + data layer.
+   Librumi - Store: client state + data layer.
    When backend is online -> real API (js/api.js).
    When no backend -> MOCK data for previewing UI + animation.
    Same shape as spec §6 so pages don't change when switching to API.
@@ -29,7 +29,7 @@
     mkBook(5, "The Cartographer's Daughter", "Lucia Ferro", "Fiction", "A story about an unfinished map and the daughter who sets out to complete her father's journey.", 3, false),
     mkBook(6, "Green City", "Team Habitat", "Science", "An optimistic, well-grounded look at the green cities of the coming decade.", 2, true),
     mkBook(7, "Letters to the Moon", "Ha-eun Kim", "Poetry", "A modern poetry collection about distance, light, and coming home.", 6, false),
-    mkBook(8, "The Debugging Mind", "P. S. Rao", "Technology", "Not just about code — about thinking systematically when everything seems to make no sense.", 4, false)
+    mkBook(8, "The Debugging Mind", "P. S. Rao", "Technology", "Not just about code - about thinking systematically when everything seems to make no sense.", 4, false)
   ];
   var MOCK_COMMENTS = {
     1: [

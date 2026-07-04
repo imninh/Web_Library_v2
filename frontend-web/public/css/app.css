@@ -1,5 +1,5 @@
 /* ============================================================
-   Librumi — Component styles (tự viết, không framework)
+   Librumi - Component styles (tự viết, không framework)
    Responsive 3 ngưỡng: < 800px, 800–1200px, > 1200px (theo BTL)
    ============================================================ */
 
@@ -251,7 +251,7 @@
 .chip.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
 
 /* ============================================================
-   RESPONSIVE — 3 ngưỡng theo yêu cầu BTL
+   RESPONSIVE - 3 ngưỡng theo yêu cầu BTL
    ============================================================ */
 /* Tablet: 800–1200px */
 @media (max-width: 1200px) {

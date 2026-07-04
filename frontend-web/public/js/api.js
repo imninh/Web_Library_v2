@@ -1,5 +1,5 @@
 /* ============================================================
-   Librumi — API client (tự viết, chỉ dùng fetch)
+   Librumi - API client (tự viết, chỉ dùng fetch)
    Nói chuyện với backend Node/Express tại /api.
    Token lưu localStorage + gửi kèm Authorization: Bearer (cho cả web & mobile).
    Web cũng dùng cookie httpOnly do server set.

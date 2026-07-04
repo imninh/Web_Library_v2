@@ -1,5 +1,5 @@
 /* ============================================================
-   Librumi — Animation vocabulary (VIẾT TAY, KHÔNG DÙNG THƯ VIỆN)
+   Librumi - Animation vocabulary (VIẾT TAY, KHÔNG DÙNG THƯ VIỆN)
    Tái hiện "cảm giác" chuyển động của voldogfood.com
    (GSAP + ScrollTrigger + Lenis của họ) bằng CSS + IntersectionObserver.
    Điều khiển bởi js/anim.js.
@@ -14,7 +14,7 @@
 @keyframes spin     { to { transform: rotate(360deg); } }
 @keyframes floatY   { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-/* ---- 1. Scroll reveal ([data-rev]) — thay animation-timeline bằng IO
+/* ---- 1. Scroll reveal ([data-rev]) - thay animation-timeline bằng IO
    để chạy được trên mọi trình duyệt, có stagger như .reveal của voldog ---- */
 .anim-on [data-rev] {
   opacity: 0;
@@ -32,7 +32,7 @@
 .hero-load--2 { animation-delay: .12s; }
 .hero-load--3 { animation-delay: .24s; }
 
-/* ---- 3. Split-title: chữ hiện theo từng TỪ (word wave) — dấu ấn voldog ---- */
+/* ---- 3. Split-title: chữ hiện theo từng TỪ (word wave) - dấu ấn voldog ---- */
 .anim-on .split-title .word {
   display: inline-block;
   opacity: 0;

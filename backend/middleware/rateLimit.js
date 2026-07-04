@@ -1,4 +1,4 @@
-/* Rate limit theo IP+path — TỰ VIẾT (không dùng express-rate-limit). Spec §10.
+/* Rate limit theo IP+path - TỰ VIẾT (không dùng express-rate-limit). Spec §10.
    Bộ nhớ trong (đủ cho BTL). Vượt ngưỡng trả 429. */
 "use strict";
 

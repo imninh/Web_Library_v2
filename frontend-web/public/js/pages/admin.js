@@ -1,5 +1,5 @@
 /* ============================================================
-   Librumi — Admin dashboard + management panels.
+   Librumi - Admin dashboard + management panels.
    Coursework: total site views, update content (books), list/delete comments,
    plus loan approval and contact inbox. All wired to the real API.
    ============================================================ */
@@ -116,7 +116,7 @@
       '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Title</th><th>Author</th><th>Category</th><th>Stock</th><th>Featured</th><th></th></tr></thead><tbody>' +
       books.map(function (b) {
         return '<tr data-id="' + b.id + '"><td><b>' + U.esc(b.title) + '</b></td><td>' + U.esc(b.author) + '</td><td>' + U.esc(b.category) + '</td>' +
-          '<td><b>' + b.stock + '</b><span style="color:var(--ink-soft)">/' + b.total_stock + '</span></td><td>' + (b.featured ? '<span class="st-tag st-borrowing">Yes</span>' : '<span style="color:var(--ink-soft)">—</span>') + '</td>' +
+          '<td><b>' + b.stock + '</b><span style="color:var(--ink-soft)">/' + b.total_stock + '</span></td><td>' + (b.featured ? '<span class="st-tag st-borrowing">Yes</span>' : '<span style="color:var(--ink-soft)">-</span>') + '</td>' +
           '<td><div class="tbl-actions"><button class="btn-xs" data-edit>Edit</button><button class="btn-xs danger" data-del>Delete</button></div></td></tr>';
       }).join("") +
       '</tbody></table></div></div>';

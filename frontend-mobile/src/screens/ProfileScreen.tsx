@@ -136,7 +136,7 @@ export function ProfileScreen() {
                           <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: 10, marginBottom: 8 }}>
                             <View style={{ flex: 1, minWidth: 0 }}>
                               <Text numberOfLines={1} style={{ fontSize: 14, fontWeight: "700", color: colors.ink }}>{l.book_title ?? "Book #" + l.book_id}</Text>
-                              <Text style={{ fontSize: 11.5, color: colors.inkSoft }}>{l.borrower_name} · due {l.due_date ?? "—"}</Text>
+                              <Text style={{ fontSize: 11.5, color: colors.inkSoft }}>{l.borrower_name} · due {l.due_date ?? "-"}</Text>
                             </View>
                             <View style={[styles.statusChip, { backgroundColor: m.bg }]}>
                               <Text style={[styles.statusChipT, { color: m.color }]}>{m.label.toUpperCase()}</Text>

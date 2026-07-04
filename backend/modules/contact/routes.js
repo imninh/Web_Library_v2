@@ -1,4 +1,4 @@
-/* Liên hệ (spec §6.6) — lưu DB (async). */
+/* Liên hệ (spec §6.6) - lưu DB (async). */
 "use strict";
 const express = require("express");
 const db = require("../../db");

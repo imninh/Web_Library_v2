@@ -1,5 +1,5 @@
 /* ============================================================
-   Librumi — Animation engine (TỰ VIẾT, KHÔNG DÙNG THƯ VIỆN)
+   Librumi - Animation engine (TỰ VIẾT, KHÔNG DÙNG THƯ VIỆN)
    Tái hiện chuyển động của voldogfood.com bằng vanilla:
    - reveal so le, split-title (chữ theo từng từ), draw-path SVG,
      count-up, magnetic, parallax, cursor follower, scroll progress.
