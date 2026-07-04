@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, TextInput, Pressable, RefreshControl, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TextInput, Pressable, RefreshControl, ActivityIndicator, Image, ImageBackground } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, coverFor } from "../theme";
@@ -85,16 +85,23 @@ export function HomeScreen({ navigation }: { navigation: Nav }) {
                   <Text style={{ color: colors.inkSoft, fontSize: 13 }}>No featured books yet.</Text>
                 ) : featured.map(b => {
                   const c = coverFor(b.id);
+                  const Wrap: any = b.image ? ImageBackground : View;
+                  const wrapProps = b.image
+                    ? { source: { uri: b.image }, imageStyle: { borderRadius: 22 }, resizeMode: "cover" as const }
+                    : { style: { backgroundColor: c.bg } };
                   return (
-                    <Pressable key={b.id} onPress={() => navigation.navigate("Book", { id: b.id })} style={[styles.featCard, { backgroundColor: c.bg }]}>
-                      <View style={styles.featTop}>
-                        <Text style={[styles.featCat, { color: c.meta }]}>{b.category.toUpperCase()}</Text>
-                        <View style={styles.featBadge}><Text style={styles.featBadgeText}>FEATURED</Text></View>
-                      </View>
-                      <View>
-                        <Text numberOfLines={3} style={[styles.featTitle, { color: c.fg }]}>{b.title}</Text>
-                        <Text numberOfLines={1} style={[styles.featAuthor, { color: c.meta }]}>{b.author}</Text>
-                      </View>
+                    <Pressable key={b.id} onPress={() => navigation.navigate("Book", { id: b.id })} style={[styles.featCard, !b.image && { backgroundColor: c.bg }]}>
+                      <Wrap {...wrapProps} style={[styles.featInner, !b.image && { backgroundColor: c.bg }]}>
+                        {b.image && <View style={styles.featScrim} />}
+                        <View style={styles.featTop}>
+                          <Text style={[styles.featCat, { color: b.image ? "rgba(255,255,255,.9)" : c.meta }]}>{b.category.toUpperCase()}</Text>
+                          <View style={styles.featBadge}><Text style={styles.featBadgeText}>FEATURED</Text></View>
+                        </View>
+                        <View>
+                          <Text numberOfLines={3} style={[styles.featTitle, { color: b.image ? "#fff" : c.fg }]}>{b.title}</Text>
+                          <Text numberOfLines={1} style={[styles.featAuthor, { color: b.image ? "rgba(255,255,255,.85)" : c.meta }]}>{b.author}</Text>
+                        </View>
+                      </Wrap>
                     </Pressable>
                   );
                 })}
@@ -136,7 +143,9 @@ const styles = StyleSheet.create({
   searchBar: { flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: colors.cream, borderRadius: 16, paddingHorizontal: 16, paddingVertical: 14 },
   searchText: { color: "#8a978c", fontSize: 14.5 },
   sectionTitle: { fontSize: 18, fontWeight: "700", color: colors.ink, paddingHorizontal: 22 },
-  featCard: { width: 210, height: 250, borderRadius: 22, padding: 20, justifyContent: "space-between" },
+  featCard: { width: 210, height: 250, borderRadius: 22, overflow: "hidden" },
+  featInner: { flex: 1, padding: 20, justifyContent: "space-between" },
+  featScrim: { position: "absolute", left: 0, right: 0, bottom: 0, top: "40%", backgroundColor: "rgba(0,0,0,.35)" },
   featTop: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
   featCat: { fontSize: 9.5, fontWeight: "700", letterSpacing: 1 },
   featBadge: { backgroundColor: colors.lime, paddingHorizontal: 8, paddingVertical: 3, borderRadius: 999 },

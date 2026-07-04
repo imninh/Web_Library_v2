@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator, Pressable, TextInput, KeyboardAvoidingView, Platform } from "react-native";
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator, Pressable, TextInput, KeyboardAvoidingView, Platform, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors, coverFor } from "../theme";
 import { booksApi, commentsApi, loansApi } from "../api";
 import { useAuth } from "../auth";
@@ -16,6 +16,7 @@ export function BookScreen({ route, navigation }: Props) {
   const { id } = route.params;
   const { user, refresh } = useAuth();
   const toast = useToast();
+  const insets = useSafeAreaInsets();
   const [book, setBook] = useState<Book | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
@@ -81,9 +82,12 @@ export function BookScreen({ route, navigation }: Props) {
   const inStock = (book.stock || 0) > 0;
   const rateText = book.rating && book.rating > 0 ? book.rating.toFixed(1) : "New";
 
+  const barBottomPad = Math.max(12, insets.bottom + 6);
+  const barTotalHeight = 68 + barBottomPad;
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: barTotalHeight + 24 }}>
         <SafeAreaView edges={["top"]} style={[styles.header, { backgroundColor: c.bg }]}>
           <View style={styles.headerTop}>
             <Pressable onPress={() => navigation.goBack()} style={styles.back}>
@@ -92,10 +96,14 @@ export function BookScreen({ route, navigation }: Props) {
             <Text style={[styles.cat, { color: c.meta }]}>{book.category.toUpperCase()}</Text>
           </View>
           <View style={styles.coverBig}>
-            <View style={[styles.coverInner, { backgroundColor: "rgba(255,255,255,.14)", borderColor: "rgba(255,255,255,.25)" }]}>
-              <Text style={[styles.coverTitle, { color: c.fg }]} numberOfLines={4}>{book.title}</Text>
-              <Text style={[styles.coverAuthor, { color: c.meta }]} numberOfLines={1}>{book.author}</Text>
-            </View>
+            {book.image ? (
+              <Image source={{ uri: book.image }} style={styles.coverImage} resizeMode="cover" />
+            ) : (
+              <View style={[styles.coverInner, { backgroundColor: "rgba(255,255,255,.14)", borderColor: "rgba(255,255,255,.25)" }]}>
+                <Text style={[styles.coverTitle, { color: c.fg }]} numberOfLines={4}>{book.title}</Text>
+                <Text style={[styles.coverAuthor, { color: c.meta }]} numberOfLines={1}>{book.author}</Text>
+              </View>
+            )}
           </View>
         </SafeAreaView>
 
@@ -131,7 +139,7 @@ export function BookScreen({ route, navigation }: Props) {
         </View>
       </ScrollView>
 
-      <SafeAreaView edges={["bottom"]} style={styles.bar}>
+      <View style={[styles.bar, { paddingBottom: barBottomPad }]}>
         <View style={{ flex: 1 }}>
           <Text style={styles.barNote}>{inStock ? "Availability" : "Waiting list"}</Text>
           <Text style={styles.barTitle}>{inStock ? `${book.stock} copies free` : "All on loan"}</Text>
@@ -139,7 +147,7 @@ export function BookScreen({ route, navigation }: Props) {
         <Pressable onPress={tapBorrow} style={styles.barBtn}>
           <Text style={styles.barBtnT}>{!user ? "Sign in" : (!inStock ? "On loan" : "Borrow")}</Text>
         </Pressable>
-      </SafeAreaView>
+      </View>
 
       <Sheet visible={reviewOpen} onClose={() => setReviewOpen(false)} title="Write a review" subtitle="Minimum 100 characters. Appears publicly right away.">
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined}>
@@ -177,6 +185,7 @@ const styles = StyleSheet.create({
   back: { width: 40, height: 40, borderRadius: 20, backgroundColor: "rgba(255,255,255,.9)", alignItems: "center", justifyContent: "center" },
   cat: { fontSize: 11, fontWeight: "700", letterSpacing: 1 },
   coverBig: { alignItems: "center", paddingTop: 22 },
+  coverImage: { width: 150, height: 210, borderRadius: 16, backgroundColor: "rgba(255,255,255,.14)" },
   coverInner: { width: 150, height: 210, borderRadius: 16, borderWidth: 1, padding: 18, justifyContent: "flex-end" },
   coverTitle: { fontSize: 19, fontWeight: "700", lineHeight: 22, marginBottom: 6 },
   coverAuthor: { fontSize: 11.5, fontWeight: "600" },
@@ -199,7 +208,7 @@ const styles = StyleSheet.create({
   reviewContent: { fontSize: 13, lineHeight: 20, color: "#4a5a51" },
   reviewBtn: { backgroundColor: "#fff", borderWidth: 1.5, borderColor: "rgba(27,58,49,.15)", borderRadius: 14, padding: 13, alignItems: "center" },
   reviewBtnT: { fontSize: 14, fontWeight: "700", color: colors.ink },
-  bar: { position: "absolute", left: 0, right: 0, bottom: 0, backgroundColor: colors.bg, borderTopWidth: 1, borderTopColor: colors.line, flexDirection: "row", alignItems: "center", gap: 14, paddingHorizontal: 22, paddingVertical: 12 },
+  bar: { position: "absolute", left: 0, right: 0, bottom: 0, backgroundColor: colors.bg, borderTopWidth: 1, borderTopColor: colors.line, flexDirection: "row", alignItems: "center", gap: 14, paddingHorizontal: 22, paddingTop: 12 },
   barNote: { fontSize: 11, color: colors.inkSoft },
   barTitle: { fontSize: 15, fontWeight: "700", color: colors.ink },
   barBtn: { backgroundColor: colors.lime, borderRadius: 14, paddingVertical: 14, paddingHorizontal: 22 },

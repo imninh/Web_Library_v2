@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors, coverFor } from "../theme";
 import type { Book } from "../types";
@@ -10,9 +10,13 @@ export function BookRow({ book, onPress }: { book: Book; onPress: () => void }) 
   const rating = book.rating && book.rating > 0 ? book.rating.toFixed(1) : "New";
   return (
     <Pressable onPress={onPress} style={({ pressed }) => [styles.row, pressed && { opacity: 0.75 }]}>
-      <View style={[styles.cover, { backgroundColor: c.bg }]}>
-        <Text numberOfLines={3} style={[styles.coverTitle, { color: c.fg }]}>{book.title}</Text>
-      </View>
+      {book.image ? (
+        <Image source={{ uri: book.image }} style={styles.coverImg} resizeMode="cover" />
+      ) : (
+        <View style={[styles.cover, { backgroundColor: c.bg }]}>
+          <Text numberOfLines={3} style={[styles.coverTitle, { color: c.fg }]}>{book.title}</Text>
+        </View>
+      )}
       <View style={{ flex: 1, minWidth: 0 }}>
         <Text numberOfLines={1} style={styles.title}>{book.title}</Text>
         <Text numberOfLines={1} style={styles.author}>{book.author}</Text>
@@ -31,6 +35,7 @@ export function BookRow({ book, onPress }: { book: Book; onPress: () => void }) 
 const styles = StyleSheet.create({
   row: { flexDirection: "row", gap: 14, alignItems: "center", backgroundColor: "#fff", borderWidth: 1, borderColor: colors.line, borderRadius: 18, padding: 12 },
   cover: { width: 56, height: 74, borderRadius: 11, padding: 7, justifyContent: "flex-end" },
+  coverImg: { width: 56, height: 74, borderRadius: 11, backgroundColor: "#e9e9e4" },
   coverTitle: { fontSize: 9, fontWeight: "700", lineHeight: 11 },
   title: { fontSize: 15, fontWeight: "700", color: colors.ink },
   author: { fontSize: 12.5, color: colors.inkSoft, marginTop: 2, marginBottom: 6 },
