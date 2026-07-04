@@ -2,6 +2,8 @@
 
 Ứng dụng thư viện số cho phép người dùng duyệt danh mục sách, đặt mượn trực tuyến và quản lý phiếu mượn của mình. Gồm phiên bản web và mobile.
 
+**Bản deploy:** https://web-library-v2.onrender.com (Render + Supabase Postgres)
+
 ## Chức năng chính
 
 - Duyệt sách theo danh mục, tìm kiếm theo tiêu đề hoặc tác giả
@@ -12,7 +14,7 @@
 - Trang giới thiệu, liên hệ kèm bản đồ chi nhánh
 - Khu vực quản trị: quản lý sách, phiếu mượn, bình luận, liên hệ
 
-## Chạy dự án
+## Chạy dự án (local)
 
 ```bash
 cd backend
@@ -20,9 +22,9 @@ npm install
 npm start
 ```
 
-Mở trình duyệt: **http://localhost:4000**
+Mở trình duyệt: **http://localhost:4000**. Muốn đổi cổng: `PORT=5000 npm start`.
 
-Muốn đổi cổng: `PORT=5000 npm start`
+> Cần file `backend/.env` với `DATABASE_URL` trỏ tới Postgres (Supabase hoặc local). Xem chi tiết trong [`docs/Ke_hoach_Deploy.md`](docs/Ke_hoach_Deploy.md).
 
 ## Hướng dẫn sử dụng
 
