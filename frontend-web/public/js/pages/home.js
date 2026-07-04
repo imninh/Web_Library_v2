@@ -177,14 +177,10 @@
         if (cta) cta.textContent = mode === "kids" ? "Explore kids' books" : "Browse the catalog";
         if (heroCtaBtn) heroCtaBtn.setAttribute("data-nav", mode === "kids" ? "/catalog?category=" + encodeURIComponent("Children's Books") : "/catalog");
 
-        // On Kids mode: activate the Children's Books chip in home-catalog + scroll to it
+        // On Kids mode: activate the Children's Books chip in home-catalog (no scroll)
         var targetCat = mode === "kids" ? "Children's Books" : "All";
         var chip = root.querySelector('#home-chips .chip[data-cat="' + targetCat + '"]');
         if (chip && !chip.classList.contains("active")) chip.click();
-        if (mode === "kids") {
-          var section = root.querySelector("#home-catalog");
-          if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
       });
     });
 
