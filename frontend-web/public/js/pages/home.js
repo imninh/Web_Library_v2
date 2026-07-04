@@ -181,7 +181,7 @@
         faq("Is borrowing free?", "Completely free. You only need an account and a valid reader profile.") +
         faq("How long can I keep a book?", "By default each loan has a due date you choose when reserving, and you may be reminded as it approaches.") +
         faq("Can I reserve for my child?", "Yes - switch the hero to the Little Readers' Corner, or filter the catalog for children's titles.") +
-        faq("How do I become an administrator?", "Admin accounts are granted by the library. Demo account: admin / admin123.") +
+        faq("What if the book I want is out of stock?", "Each book page shows live stock. If a title is out, check back in a few days - copies return quickly.") +
     '  </div>' +
     '</section>' +
 
