@@ -22,7 +22,6 @@
     '        <div class="form-row"><label class="field-lbl">Username</label><input class="inp" name="username" autocomplete="username"/></div>' +
     '        <div class="form-row"><label class="field-lbl">Password</label><input class="inp" name="password" type="password" autocomplete="current-password"/></div>' +
     '        <button class="btn-lime" type="submit" style="width:100%;justify-content:center;padding:13px">Sign in</button>' +
-    '        <p style="text-align:center;color:var(--ink-soft);font-size:13px;margin:16px 0 0">Demo: <b>admin/admin123</b> or <b>user/user123</b></p>' +
     '      </form>' +
     '      <form id="form-register" style="display:none">' +
     '        <div class="form-row"><label class="field-lbl">Username</label><input class="inp" name="username"/></div>' +

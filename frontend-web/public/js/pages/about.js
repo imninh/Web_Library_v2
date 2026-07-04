@@ -32,7 +32,17 @@
     '    <div data-rev>' +
     '      <h2 class="section-title split-title" style="text-align:left;font-size:30px"><span class="linew">Get in touch</span></h2>' +
     '      <p style="color:var(--ink-soft);line-height:1.7;margin-top:12px">Have a question, feedback, or a partnership idea? Drop us a few lines — the Librumi team is always listening.</p>' +
-    '      <div style="margin-top:20px;line-height:2;color:var(--ink)">📍 123 Book Street, Hanoi<br>✉️ hello@librumi.vn<br>☎️ (024) 1234 5678</div>' +
+    '      <ul class="contact-lines" style="list-style:none;padding:0;margin:22px 0 0;display:flex;flex-direction:column;gap:12px;color:var(--ink)">' +
+    '        <li style="display:flex;align-items:center;gap:12px">' +
+    '          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' +
+    '          <span>123 Book Street, Hanoi</span></li>' +
+    '        <li style="display:flex;align-items:center;gap:12px">' +
+    '          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>' +
+    '          <a href="mailto:hello@librumi.vn" style="color:inherit;text-decoration:none">hello@librumi.vn</a></li>' +
+    '        <li style="display:flex;align-items:center;gap:12px">' +
+    '          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>' +
+    '          <span>(024) 1234 5678</span></li>' +
+    '      </ul>' +
     '    </div>' +
     '    <div class="form-card" data-rev>' +
     '      <div class="form-row"><label class="field-lbl">Full name</label><input class="inp" id="ct-name"/></div>' +

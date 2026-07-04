@@ -167,6 +167,7 @@
     // Hero Readers/Kids toggle (cross-fade video + copy + gradient + CTA)
     var hero = root.querySelector("#hero");
     var cta = root.querySelector("#hero-cta");
+    var heroCtaBtn = cta && cta.closest("[data-nav]");
     root.querySelectorAll(".hero-tg").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var mode = btn.getAttribute("data-mode");
@@ -174,6 +175,16 @@
         hero.setAttribute("data-mode", mode);
         root.querySelectorAll(".hero-tg").forEach(function (b) { b.classList.toggle("active", b === btn); });
         if (cta) cta.textContent = mode === "kids" ? "Explore kids' books" : "Browse the catalog";
+        if (heroCtaBtn) heroCtaBtn.setAttribute("data-nav", mode === "kids" ? "/catalog?category=" + encodeURIComponent("Children's Books") : "/catalog");
+
+        // On Kids mode: activate the Children's Books chip in home-catalog + scroll to it
+        var targetCat = mode === "kids" ? "Children's Books" : "All";
+        var chip = root.querySelector('#home-chips .chip[data-cat="' + targetCat + '"]');
+        if (chip && !chip.classList.contains("active")) chip.click();
+        if (mode === "kids") {
+          var section = root.querySelector("#home-catalog");
+          if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
       });
     });
 
