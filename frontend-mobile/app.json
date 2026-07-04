@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "Librumi",
+    "slug": "librumi-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#faf8f2",
+      "resizeMode": "contain"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.librumi.mobile"
+    },
+    "android": {
+      "package": "com.librumi.mobile",
+      "adaptiveIcon": {
+        "backgroundColor": "#93a163"
+      }
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
