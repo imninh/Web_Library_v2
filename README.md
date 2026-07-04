@@ -1,55 +1,42 @@
-# Librumi — Thư viện số (Bài tập lớn Web)
+# Librumi — Thư viện số
 
-Full-stack thư viện số: **frontend HTML/CSS/JS thuần** + **backend Node/Express/SQLite**.
-Toàn bộ logic (auth, băm mật khẩu, token, rate-limit, CORS, validate, animation) **tự viết** —
-không dùng framework/thư viện dựng sẵn cho nghiệp vụ (tránh penalty −10 của BTL).
-Chỉ 2 dependency hạ tầng: `express` (HTTP) + `better-sqlite3` (driver DB).
+Ứng dụng thư viện số cho phép người dùng duyệt danh mục sách, đặt mượn trực tuyến và quản lý phiếu mượn của mình. Gồm phiên bản web và mobile.
 
-## Cấu trúc
-```
-backend/            # REST API (Node + Express + SQLite)  — spec: docs/Yeu_cau_Backend.md
-  server.js         # khởi tạo, mount routes, phục vụ frontend tĩnh + /uploads
-  config/ db/ middleware/ modules/ services/ utils/
-frontend-web/public/  # SPA vanilla (nối API qua /api, tự phát hiện online)
-  index.html  css/  js/  js/pages/
-docs/               # yêu cầu đề bài + spec backend
-```
+## Chức năng chính
 
-## Chạy
+- Duyệt sách theo danh mục, tìm kiếm theo tiêu đề hoặc tác giả
+- Xem chi tiết sách, đánh giá sao và bình luận công khai
+- Đặt mượn online, xem lịch sử mượn của mình
+- Gợi ý sách theo sở thích (wizard 3 bước)
+- Chế độ dành cho trẻ em (Kids mode) với giao diện riêng
+- Trang giới thiệu, liên hệ kèm bản đồ chi nhánh
+- Khu vực quản trị: quản lý sách, phiếu mượn, bình luận, liên hệ
+
+## Chạy dự án
+
 ```bash
 cd backend
 npm install
-npm start           # http://localhost:4000  (tự seed dữ liệu mẫu lần đầu)
+npm start
 ```
-Mở trình duyệt: **http://localhost:4000** — backend phục vụ luôn frontend, tự chạy dữ liệu thật.
-Đổi cổng: `PORT=5000 npm start`. Seed lại thủ công: `npm run seed`.
 
-> Chạy riêng frontend (chế độ preview mock, không cần backend):
-> `node frontend-web/dev-server.js` → http://localhost:4173
+Mở trình duyệt: **http://localhost:4000**
 
-## Tài khoản demo
-| Vai trò | Tài khoản | Mật khẩu |
-|---|---|---|
-| Admin | `admin` | `admin123` |
-| User  | `user`  | `user123`  |
+Muốn đổi cổng: `PORT=5000 npm start`
 
-## API chính (tiền tố `/api`)
-- **Auth:** `POST /auth/register`, `POST /auth/login`, `POST /auth/logout`, `GET /auth/me`
-- **Hồ sơ:** `GET/PUT /profile`
-- **Sách:** `GET /books`, `GET /books/:id`, `GET /categories`, `POST/PUT/DELETE /books/:id` (admin), `GET /books/:id/copies` (admin)
-- **Bình luận:** `GET/POST /books/:id/comments`, `GET /admin/comments`, `PATCH /comments/:id/visibility`, `DELETE /comments/:id` (admin)
-- **Phiếu mượn:** `POST /loans`, `GET /loans/me`, `GET /admin/loans`, `PATCH /admin/loans/:id/status`, `DELETE /admin/loans/:id`, `POST /admin/overdue-audit` (admin)
-- **Liên hệ:** `POST /contact`, `GET /admin/contacts` (admin)
-- **Thống kê:** `GET/POST /stats/views`, `GET /admin/summary` (admin)
-- **Upload:** `POST /admin/upload` (admin, base64 data-URI)
-- **Health:** `GET /health`
+## Hướng dẫn sử dụng
 
-## Bảo mật (tự viết)
-PBKDF2-SHA256 (120k vòng) cho mật khẩu · token HMAC-SHA256 · so sánh chữ ký `timingSafeEqual` ·
-rate-limit theo IP+path · CORS giới hạn ở production · cookie httpOnly/SameSite/Secure · SQL tham số hoá.
+1. Truy cập trang chủ, chọn danh mục hoặc gõ tìm sách bạn quan tâm
+2. Mở trang sách, nhấn **Reserve** để đặt mượn
+3. Đăng ký tài khoản nếu chưa có, sau đó xác nhận lượt mượn
+4. Vào mục **Hồ sơ** để xem các lượt mượn hiện tại và lịch sử
+5. Có thể để lại đánh giá và bình luận trực tiếp ở trang sách
 
-## Đối chiếu tiêu chí BTL (website)
-DB lưu toàn bộ · đăng nhập/đăng xuất admin·user · trang nội dung theo mã (`/book/:id`) ·
-form bình luận+đánh giá (≥100 ký tự, hiện công khai ngay) · popup quảng cáo sau 1 phút + cookie ·
-trang giới thiệu + form liên hệ · trang quản trị (view, nội dung, bình luận) ·
-responsive 3 ngưỡng (800/1200px) · API dùng chung cho mobile (Bearer token).
+## Cấu trúc
+
+```
+backend/           # API server
+frontend-web/      # Website
+frontend-mobile/   # Ứng dụng di động
+docs/              # Tài liệu
+```
