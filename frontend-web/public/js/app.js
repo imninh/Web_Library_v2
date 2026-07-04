@@ -1,0 +1,174 @@
+/* ============================================================
+   Librumi — App shell & Router (SPA, hash-based, tự viết)
+   ============================================================ */
+(function () {
+  "use strict";
+  var $app = document.getElementById("app");
+  var $nav = document.getElementById("nav");
+  var $footer = document.getElementById("footer");
+
+  /* ---------- Parse hash -> route ---------- */
+  function parse() {
+    var h = (location.hash || "#/").replace(/^#/, "");
+    var parts = h.split("/").filter(Boolean);         // ["book","3"]
+    var name = parts[0] || "home";
+    return { name: name, params: parts.slice(1), raw: h };
+  }
+
+  var ROUTES = {
+    home:    function (c) { return window.Pages.home(c); },
+    catalog: function (c) { return window.Pages.catalog(c); },
+    book:    function (c) { return window.Pages.book(c); },
+    login:   function (c) { return window.Pages.auth(c); },
+    account: function (c) { return window.Pages.account(c); },
+    admin:   function (c) { return window.Pages.admin(c); },
+    about:   function (c) { return window.Pages.about(c); }
+  };
+
+  /* ---------- Nav ---------- */
+  function renderNav() {
+    var s = window.Store;
+    var right = "";
+    if (s.isAdmin())
+      right += '<a data-nav="/admin" class="btn-ghost">Admin</a>';
+    if (s.isLoggedIn())
+      right += '<button data-action="logout" class="btn-lime">' + U.esc(s.user.username) + ' · Log out</button>';
+    else
+      right += '<button data-nav="/login" class="btn-lime">Sign in</button>';
+
+    $nav.innerHTML =
+      '<div class="nav-inner wrap">' +
+      '  <nav class="nav-left">' +
+      '    <a data-nav="/catalog">Catalog</a>' +
+      '    <a data-nav="/about">About</a>' +
+      '    <a data-nav="/about#contact">Contact</a>' +
+      '  </nav>' +
+      '  <a data-nav="/" class="brand">LIBRUMI<span>.</span></a>' +
+      '  <div class="nav-right">' +
+      '    <a data-nav="/catalog" class="icon-btn" title="Search books" aria-label="Search">' +
+      '      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg></a>' +
+      '    <a data-nav="' + (s.isLoggedIn() ? "/account" : "/login") + '" class="icon-btn" title="Account" aria-label="Account">' +
+      '      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg></a>' +
+      right +
+      '  </div>' +
+      '</div>';
+  }
+
+  /* ---------- Footer ---------- */
+  function renderFooter() {
+    $footer.innerHTML =
+      '<div class="wrap foot-inner">' +
+      '  <div class="foot-brand"><span class="brand">LIBRUMI<span>.</span></span>' +
+      '    <p>A public digital library — borrow good books the easy way.</p></div>' +
+      '  <div class="foot-cols">' +
+      '    <div><h4>Explore</h4><a data-nav="/catalog">Catalog</a><a data-nav="/about">About</a><a data-nav="/about#contact">Contact</a></div>' +
+      '    <div><h4>Account</h4><a data-nav="/login">Sign in</a><a data-nav="/account">Profile</a></div>' +
+      '  </div>' +
+      '</div>' +
+      '<div class="wrap foot-bottom">© ' + new Date().getFullYear() + ' Librumi · Web Programming coursework project.</div>';
+  }
+
+  /* ---------- Navigate ---------- */
+  var navigating = false;
+  async function navigate() {
+    if (navigating) return; navigating = true;
+    var ctx = parse();
+    var fn = ROUTES[ctx.name] || ROUTES.home;
+    $app.innerHTML = '<div class="page-loading"><span class="spinner"></span></div>';
+    try {
+      var view = await fn(ctx);
+      var html = typeof view === "string" ? view : view.html;
+      $app.innerHTML = '<div class="route-fade">' + html + '</div>';
+      if (view && view.mount) view.mount($app.querySelector(".route-fade"), ctx);
+    } catch (e) {
+      console.error(e);
+      $app.innerHTML = '<div class="wrap section"><h2 class="font-head">Something went wrong</h2><p>' + U.esc(e.message || "Could not load this page.") + '</p></div>';
+    }
+    renderNav();
+    window.scrollTo(0, 0);
+    if (window.Anim) window.Anim.refresh($app);
+    navigating = false;
+  }
+
+  /* ---------- Global click delegation ---------- */
+  document.addEventListener("click", function (e) {
+    var nav = e.target.closest("[data-nav]");
+    if (nav) {
+      e.preventDefault();
+      var to = nav.getAttribute("data-nav");
+      var hashPart = "";
+      var hi = to.indexOf("#");
+      if (hi >= 0) { hashPart = to.slice(hi + 1); to = to.slice(0, hi); }
+      if (("#" + to) === location.hash || (to === "/" && (location.hash === "" || location.hash === "#/"))) {
+        // same page -> just scroll to section if present
+        if (hashPart) { var t = document.getElementById(hashPart); if (t) t.scrollIntoView({ behavior: "smooth" }); }
+      } else {
+        location.hash = "#" + to;
+        if (hashPart) window.__scrollTo = hashPart;
+      }
+      return;
+    }
+    var act = e.target.closest("[data-action]");
+    if (act) {
+      var action = act.getAttribute("data-action");
+      if (action === "logout") {
+        e.preventDefault();
+        window.Store.logout().then(function () { U.toast("Signed out."); renderNav(); U.go("/"); });
+      }
+    }
+  });
+
+  window.addEventListener("hashchange", function () {
+    navigate().then(function () {
+      if (window.__scrollTo) { var t = document.getElementById(window.__scrollTo); if (t) t.scrollIntoView({ behavior: "smooth" }); window.__scrollTo = null; }
+    });
+  });
+
+  /* ---------- Promotional popup after 1 minute (coursework) + cookie ---------- */
+  function schedulePromo() {
+    if (U.getCookie("librumi_promo_closed") === "1") return;
+    setTimeout(function () { showPromo(); }, 60 * 1000); // exactly after 1 minute
+  }
+  async function showPromo() {
+    if (U.getCookie("librumi_promo_closed") === "1") return;
+    var res = await window.Store.books({ featured: 1 });
+    var book = (res.items || [])[0]; if (!book) return;
+    var root = document.getElementById("modal-root");
+    var cov = book.cover || ["#93a163", "#84924f"];
+    root.innerHTML =
+      '<div class="modal-overlay" data-close-promo>' +
+      '  <div class="promo pop-anim" role="dialog" aria-label="Featured book">' +
+      '    <button class="promo-x" data-close-promo aria-label="Close">✕</button>' +
+      '    <div class="promo-cover" style="background:linear-gradient(150deg,' + cov[0] + ',' + cov[1] + ')">' +
+      '       <span>' + U.esc(book.title) + '</span></div>' +
+      '    <div class="promo-body">' +
+      '      <span class="eyebrow">Featured today</span>' +
+      '      <h3 class="font-head">' + U.esc(book.title) + '</h3>' +
+      '      <p>' + U.esc(U.truncate(book.description, 120)) + '</p>' +
+      '      <button class="btn-lime" data-nav="/book/' + book.id + '" data-close-promo-soft>View & borrow now ' + U.arrow("#1b3a31", 18) + '</button>' +
+      '    </div>' +
+      '  </div>' +
+      '</div>';
+    root.querySelectorAll("[data-close-promo]").forEach(function (el) {
+      el.addEventListener("click", function (ev) {
+        if (ev.target.closest("[data-close-promo-soft]")) return;
+        U.setCookie("librumi_promo_closed", "1", 30); // do not show again next time
+        root.innerHTML = "";
+      });
+    });
+    var goBtn = root.querySelector("[data-close-promo-soft]");
+    if (goBtn) goBtn.addEventListener("click", function () { root.innerHTML = ""; });
+  }
+
+  /* ---------- Boot ---------- */
+  (async function boot() {
+    renderFooter();
+    await window.Store.init();
+    window.Store.bumpView();
+    await navigate();
+    schedulePromo();
+    if (!window.Store.online) {
+      U.toast("Preview mode (backend not connected).", "info");
+    }
+  })();
+})();

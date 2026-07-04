@@ -1,0 +1,19 @@
+{
+  "name": "librumi-backend",
+  "version": "1.0.0",
+  "description": "Librumi — REST API thư viện số (Node + Express + PostgreSQL/Supabase). Tự viết auth/hash/token/rate-limit, tối thiểu thư viện.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node db/seed.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^4.19.2",
+    "pg": "^8.22.0"
+  }
+}

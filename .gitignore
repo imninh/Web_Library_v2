@@ -1,0 +1,21 @@
+node_modules/
+backend/node_modules/
+backend/librumi.db*
+backend/uploads/
+**/.env
+.DS_Store
+*.log
+
+# Editor / agent configs
+.claude/
+.agents/
+.windsurf/
+.vscode/
+.idea/
+
+# Local dev artifacts (not part of Librumi)
+ffmpeg.exe
+image-slot.js
+skills-lock.json
+support.js
+support_1.js
