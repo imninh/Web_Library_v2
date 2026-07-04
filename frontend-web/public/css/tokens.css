@@ -12,10 +12,35 @@
   --line:      rgba(27, 58, 49, .10);
   --lime:      #cfe021;   /* xanh nõn chuối - accent chính */
   --lime-deep: #b9cc17;
+  --lime-soft: #eef5b3;   /* nền pastel cho blob icon */
   --olive-1:   #93a163;   /* gradient hero */
   --olive-2:   #84924f;
   --coral:     #e8735a;   /* nét vẽ nhấn */
+  --coral-soft:#fbd7cd;
+  --peach:     #f6b895;
+  --sky:       #a8c8d8;
+  --sky-soft:  #d6e8f1;
+  --butter:    #f4dc8c;
+  --butter-soft:#faedbb;
+  --rose:      #e79bb4;
+  --rose-soft: #f5cfdb;
+  --mint:      #a8d5b8;
+  --mint-soft: #d3ecdb;
   --cream:     #fbfcf5;
+
+  /* Category tile gradients (pastel, kiểu Voldog) */
+  --tile-1: linear-gradient(150deg, #f4dc8c, #f6b895);   /* butter -> peach */
+  --tile-2: linear-gradient(150deg, #a8d5b8, #cfe021);   /* mint -> lime */
+  --tile-3: linear-gradient(150deg, #a8c8d8, #93a163);   /* sky -> olive */
+  --tile-4: linear-gradient(150deg, #e79bb4, #e8735a);   /* rose -> coral */
+  --tile-5: linear-gradient(150deg, #eef5b3, #a8d5b8);   /* lime-soft -> mint */
+
+  /* Marquee & sticker & wave */
+  --marquee-bg:      var(--lime);
+  --marquee-ink:     var(--ink);
+  --marquee-speed:   36s;
+  --sticker-rotate:  -6deg;
+  --wave-fill:       var(--bg);
 
   /* Typography */
   --font-head: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;

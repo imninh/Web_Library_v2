@@ -34,6 +34,25 @@
     return "background:linear-gradient(150deg," + c[0] + "," + c[1] + ")";
   }
 
+  function relatedCard(b) {
+    var inStock = (b.stock || 0) > 0;
+    return '<article class="book-card" data-nav="/book/' + b.id + '">' +
+      '  <div class="book-cover" style="' + cover(b) + '">' +
+      '     <span class="cat">' + U.esc(b.category) + '</span>' +
+      (b.featured ? '<span class="feat-badge">Featured</span>' : '') +
+      (b.image ? '' : '<span class="ct">' + U.esc(b.title) + '</span>') +
+      '  </div>' +
+      '  <div class="book-info">' +
+      '     <div class="bt">' + U.esc(U.truncate(b.title, 42)) + '</div>' +
+      '     <div class="ba">' + U.esc(b.author) + '</div>' +
+      '     <div class="bmeta">' + U.stars(b.rating, 14) +
+      '        <span class="badge-stock ' + (inStock ? "badge-in" : "badge-out") + '">' +
+             (inStock ? b.stock + " in" : "Out") + '</span>' +
+      '     </div>' +
+      '  </div>' +
+      '</article>';
+  }
+
   function commentItem(c) {
     return '<div class="tst-card" data-rev style="margin-bottom:14px">' +
       '<div style="display:flex;justify-content:space-between;align-items:center;gap:12px">' +
@@ -49,6 +68,17 @@
     var cRes = await window.Store.comments(id);
     var comments = cRes.items || [];
     var inStock = (b.stock || 0) > 0;
+    // Related books (same category, excluding current)
+    var related = [];
+    try {
+      var relRes = await window.Store.books({ category: b.category });
+      related = (relRes.items || []).filter(function (x) { return String(x.id) !== String(b.id); }).slice(0, 8);
+    } catch (e) {}
+    // Rating average from comments
+    var ratingAvg = comments.length
+      ? (comments.reduce(function (s, c) { return s + (c.rating || 0); }, 0) / comments.length)
+      : (b.rating || 0);
+    var ratingRound = Math.round(ratingAvg * 10) / 10;
 
     var html =
     '<section class="wrap" style="padding-top:28px">' +
@@ -59,9 +89,15 @@
     '    <div data-rev>' +
     '      <span class="eyebrow">' + U.esc(b.category) + '</span>' +
     '      <h1 class="section-title" style="text-align:left;font-size:40px;margin:8px 0 6px">' + U.esc(b.title) + '</h1>' +
-    '      <div style="color:var(--ink-soft);font-size:17px;margin-bottom:14px">by <b>' + U.esc(b.author) + '</b>' + (b.year ? ' · ' + b.year : '') + '</div>' +
-    '      <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px">' + U.stars(b.rating, 18) +
-    '        <span class="badge-stock ' + (inStock ? "badge-in" : "badge-out") + '">' + (inStock ? b.stock + " copies available" : "Out of stock") + '</span></div>' +
+    '      <div style="color:var(--ink-soft);font-size:17px;margin-bottom:8px">by <b>' + U.esc(b.author) + '</b>' + (b.year ? ' · ' + b.year : '') + '</div>' +
+    '      <div class="book-rating-badge" data-rev>' +
+    '        <div class="brb-num">' + ratingRound.toFixed(1) + '</div>' +
+    '        <div class="brb-meta">' +
+    '          <div class="brb-stars">★★★★★</div>' +
+    '          <div class="brb-lbl">Based on ' + comments.length + ' review' + (comments.length === 1 ? '' : 's') + '</div>' +
+    '        </div>' +
+    '        <span class="badge-stock ' + (inStock ? "badge-in" : "badge-out") + '" style="margin-left:12px">' + (inStock ? b.stock + " copies available" : "Out of stock") + '</span>' +
+    '      </div>' +
     '      <p style="line-height:1.7;font-size:16px;max-width:560px">' + U.esc(b.description) + '</p>' +
     '      <div style="display:flex;gap:12px;margin-top:24px">' +
     '        <button class="btn-dark" id="borrow-btn" data-magnetic="0.25"' + (inStock ? "" : " disabled style=\"opacity:.5;cursor:not-allowed\"") + '>' +
@@ -91,6 +127,22 @@
     '      <button class="btn-lime" id="rv-submit" style="width:100%;justify-content:center;padding:13px">Submit review</button>' +
     '    </div>' +
     '  </div>' +
+
+    /* ---- CROSS-SELL: sách cùng thể loại ---- */
+    (related.length ?
+      '  <div class="carousel-wrap" data-rev style="margin-top:60px">' +
+      '    <div class="carousel-head">' +
+      '      <div>' +
+      '        <span class="eyebrow">Same category</span>' +
+      '        <h2 class="section-title" style="text-align:left;font-size:30px;margin:6px 0 0">More in <span class="hl">' + U.esc(b.category) + '</span></h2>' +
+      '      </div>' +
+      '      <div class="carousel-nav">' +
+      '        <button class="carousel-arrow" data-carousel="prev" aria-label="Scroll left">←</button>' +
+      '        <button class="carousel-arrow" data-carousel="next" aria-label="Scroll right">→</button>' +
+      '      </div>' +
+      '    </div>' +
+      '    <div class="book-carousel" id="related-carousel">' + related.map(relatedCard).join("") + '</div>' +
+      '  </div>' : '') +
     '</section>';
 
     return {
@@ -115,6 +167,23 @@
         var content = root.querySelector("#rv-content");
         var count = root.querySelector("#rv-count");
         content.addEventListener("input", function () { count.textContent = content.value.trim().length; });
+        // Cross-sell carousel arrows
+        var relCarousel = root.querySelector("#related-carousel");
+        if (relCarousel) {
+          var relPrev = root.querySelector('[data-carousel="prev"]');
+          var relNext = root.querySelector('[data-carousel="next"]');
+          function updateRelArrows() {
+            var atStart = relCarousel.scrollLeft < 4;
+            var atEnd = relCarousel.scrollLeft + relCarousel.clientWidth >= relCarousel.scrollWidth - 4;
+            if (relPrev) relPrev.disabled = atStart;
+            if (relNext) relNext.disabled = atEnd;
+          }
+          if (relPrev) relPrev.addEventListener("click", function () { relCarousel.scrollBy({ left: -relCarousel.clientWidth * 0.85, behavior: "smooth" }); });
+          if (relNext) relNext.addEventListener("click", function () { relCarousel.scrollBy({ left: relCarousel.clientWidth * 0.85, behavior: "smooth" }); });
+          relCarousel.addEventListener("scroll", updateRelArrows);
+          window.addEventListener("resize", updateRelArrows);
+          setTimeout(updateRelArrows, 60);
+        }
         // submit
         root.querySelector("#rv-submit").addEventListener("click", async function () {
           var name = root.querySelector("#rv-name").value.trim();

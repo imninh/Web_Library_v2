@@ -56,18 +56,47 @@
       '</div>';
   }
 
-  /* ---------- Footer ---------- */
+  /* ---------- Footer (4 cột + social) ---------- */
   function renderFooter() {
+    var socialIcon = function (label, path) {
+      return '<a href="#" aria-label="' + label + '" title="' + label + '">' +
+        '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + path + '</svg></a>';
+    };
+    var fb = '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>';
+    var ig = '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>';
+    var tw = '<path d="M22 5.9a8 8 0 0 1-2.4.7 4 4 0 0 0 1.8-2.2 8 8 0 0 1-2.6 1 4 4 0 0 0-6.8 3.6A11 11 0 0 1 3 4.6a4 4 0 0 0 1.2 5.3A4 4 0 0 1 2.5 9v.1a4 4 0 0 0 3.2 4 4 4 0 0 1-1.8.07 4 4 0 0 0 3.7 2.8A8 8 0 0 1 2 17.5a11 11 0 0 0 6 1.7c7.2 0 11.2-6 11.2-11.2v-.5A8 8 0 0 0 22 5.9z"/>';
+    var yt = '<path d="M22 8.4a2.5 2.5 0 0 0-1.8-1.8C18.6 6 12 6 12 6s-6.6 0-8.2.6A2.5 2.5 0 0 0 2 8.4 26 26 0 0 0 1.5 12c0 1.3.2 2.6.5 3.6a2.5 2.5 0 0 0 1.8 1.8c1.6.6 8.2.6 8.2.6s6.6 0 8.2-.6a2.5 2.5 0 0 0 1.8-1.8c.3-1 .5-2.3.5-3.6a26 26 0 0 0-.5-3.6z"/><path d="m10 15 5-3-5-3z" fill="currentColor"/>';
+
     $footer.innerHTML =
       '<div class="wrap foot-inner">' +
-      '  <div class="foot-brand"><span class="brand">LIBRUMI<span>.</span></span>' +
-      '    <p>A public digital library - borrow good books the easy way.</p></div>' +
-      '  <div class="foot-cols">' +
-      '    <div><h4>Explore</h4><a data-nav="/catalog">Catalog</a><a data-nav="/about">About</a><a data-nav="/about#contact">Contact</a></div>' +
-      '    <div><h4>Account</h4><a data-nav="/login">Sign in</a><a data-nav="/account">Profile</a></div>' +
+      '  <div class="foot-col foot-brand">' +
+      '    <span class="brand">LIBRUMI<span>.</span></span>' +
+      '    <p>A public digital library - borrow good books the easy way, always free and always friendly.</p>' +
+      '    <div class="foot-social">' + socialIcon("Facebook", fb) + socialIcon("Instagram", ig) + socialIcon("Twitter", tw) + socialIcon("YouTube", yt) + '</div>' +
+      '  </div>' +
+      '  <div class="foot-col">' +
+      '    <h4>Explore</h4>' +
+      '    <a data-nav="/catalog">Catalog</a>' +
+      '    <a data-nav="/about">About</a>' +
+      '    <a data-nav="/about#contact">Contact</a>' +
+      '  </div>' +
+      '  <div class="foot-col">' +
+      '    <h4>Support</h4>' +
+      '    <a data-nav="/login">Sign in</a>' +
+      '    <a data-nav="/account">My account</a>' +
+      '    <a data-nav="/about#contact">FAQ</a>' +
+      '  </div>' +
+      '  <div class="foot-col foot-col--hours">' +
+      '    <h4>Visit us</h4>' +
+      '    <div class="foot-hours">' +
+      '      <div><span>Mon - Fri</span>08:00 - 20:00</div>' +
+      '      <div><span>Sat</span>09:00 - 18:00</div>' +
+      '      <div><span>Sun</span>09:00 - 17:00</div>' +
+      '      <div style="margin-top:8px;opacity:.85">C7 · HUST · 1 Dai Co Viet<br>Hai Ba Trung, Hanoi<br>(084) 24 1234 5678</div>' +
+      '    </div>' +
       '  </div>' +
       '</div>' +
-      '<div class="wrap foot-bottom">© ' + new Date().getFullYear() + ' Librumi</div>';
+      '<div class="wrap foot-bottom">© ' + new Date().getFullYear() + ' Librumi - Made with ♥ for readers.</div>';
   }
 
   /* ---------- Navigate ---------- */
@@ -137,16 +166,21 @@
     var book = (res.items || [])[0]; if (!book) return;
     var root = document.getElementById("modal-root");
     var cov = book.cover || ["#93a163", "#84924f"];
+    var coverBg = book.image
+      ? "background:#e9e9e4 center/cover no-repeat;background-image:url('" + U.esc(book.image) + "')"
+      : "background:linear-gradient(150deg," + cov[0] + "," + cov[1] + ")";
     root.innerHTML =
       '<div class="modal-overlay" data-close-promo>' +
       '  <div class="promo pop-anim" role="dialog" aria-label="Featured book">' +
       '    <button class="promo-x" data-close-promo aria-label="Close">✕</button>' +
-      '    <div class="promo-cover" style="background:linear-gradient(150deg,' + cov[0] + ',' + cov[1] + ')">' +
-      '       <span>' + U.esc(book.title) + '</span></div>' +
+      '    <div class="promo-cover" style="' + coverBg + '">' +
+      '       <div class="sticker sticker--coral" aria-label="Featured">Feat<br>ured</div>' +
+      '       ' + (book.image ? '' : '<span>' + U.esc(book.title) + '</span>') +
+      '    </div>' +
       '    <div class="promo-body">' +
       '      <span class="eyebrow">Featured today</span>' +
       '      <h3 class="font-head">' + U.esc(book.title) + '</h3>' +
-      '      <p>' + U.esc(U.truncate(book.description, 120)) + '</p>' +
+      '      <p>' + U.esc(U.truncate(book.description, 130)) + '</p>' +
       '      <button class="btn-lime" data-nav="/book/' + book.id + '" data-close-promo-soft>View & borrow now ' + U.arrow("#1b3a31", 18) + '</button>' +
       '    </div>' +
       '  </div>' +
