@@ -41,9 +41,9 @@
     $nav.innerHTML =
       '<div class="nav-inner wrap">' +
       '  <nav class="nav-left">' +
+      '    <a data-nav="/">Home</a>' +
       '    <a data-nav="/catalog">Catalog</a>' +
-      '    <a data-nav="/about">About</a>' +
-      '    <a data-nav="/about#contact">Contact</a>' +
+      '    <a data-nav="/about">Contact</a>' +
       '  </nav>' +
       '  <a data-nav="/" class="brand">LIBRUMI<span>.</span></a>' +
       '  <div class="nav-right">' +
