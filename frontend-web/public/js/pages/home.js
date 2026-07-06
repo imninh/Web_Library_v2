@@ -48,7 +48,7 @@
     '<section class="hero" id="hero" data-mode="readers">' +
     '  <div class="hero-teal"></div>' +
     '  <div class="hero-ghost" data-parallax="0.08"><span>LIBRUMI</span></div>' +
-    '  <img class="hero-tia" src="assets/Tia.png" alt="" aria-hidden="true">' +
+    '  <img class="hero-tia" src="assets/Tia.png" alt="" aria-hidden="true" width="535" height="449">' +
     '  <div class="hero-clips">' +
     '    <video class="hero-vid hero-vid--readers" autoplay loop muted playsinline preload="auto"><source src="assets/adult_alpha.webm" type="video/webm"></video>' +
     '    <video class="hero-vid hero-vid--kids" autoplay loop muted playsinline preload="auto"><source src="assets/child_alpha.webm" type="video/webm"></video>' +

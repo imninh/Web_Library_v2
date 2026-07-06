@@ -155,13 +155,13 @@
     });
   });
 
-  /* ---------- Promotional popup after 1 minute (session-only) ---------- */
+  /* ---------- Promotional popup after 1 minute + cookie ---------- */
   function schedulePromo() {
-    if (sessionStorage.getItem("librumi_promo_closed") === "1") return;
+    if (U.getCookie("librumi_promo_closed") === "1") return;
     setTimeout(function () { showPromo(); }, 60 * 1000); // exactly after 1 minute
   }
   async function showPromo() {
-    if (sessionStorage.getItem("librumi_promo_closed") === "1") return;
+    if (U.getCookie("librumi_promo_closed") === "1") return;
     var res = await window.Store.books({ featured: 1 });
     var book = (res.items || [])[0]; if (!book) return;
     var root = document.getElementById("modal-root");
@@ -172,7 +172,7 @@
     root.innerHTML =
       '<div class="modal-overlay">' +
       '  <div class="promo pop-anim" role="dialog" aria-label="Featured book">' +
-      '    <button class="promo-x" data-promo-later aria-label="Close">✕</button>' +
+      '    <button class="promo-x" data-promo-off aria-label="Close">✕</button>' +
       '    <div class="promo-cover" style="' + coverBg + '">' +
       '       <div class="sticker sticker--coral" aria-label="Featured">Feat<br>ured</div>' +
       '       ' + (book.image ? '' : '<span>' + U.esc(book.title) + '</span>') +
@@ -191,7 +191,7 @@
       '  </div>' +
       '</div>';
     function closeLater() { root.innerHTML = ""; schedulePromo(); }
-    function closeOff() { sessionStorage.setItem("librumi_promo_closed", "1"); root.innerHTML = ""; }
+    function closeOff() { U.setCookie("librumi_promo_closed", "1", 30); root.innerHTML = ""; }
     var overlay = root.querySelector(".modal-overlay");
     overlay.addEventListener("click", function (ev) { if (ev.target === overlay) closeLater(); });
     root.querySelectorAll("[data-promo-later]").forEach(function (el) { el.addEventListener("click", closeLater); });

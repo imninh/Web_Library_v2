@@ -13,6 +13,7 @@ import { HomeScreen } from "./src/screens/HomeScreen";
 import { SearchScreen } from "./src/screens/SearchScreen";
 import { CardScreen } from "./src/screens/CardScreen";
 import { ProfileScreen } from "./src/screens/ProfileScreen";
+import { ContactScreen } from "./src/screens/ContactScreen";
 import { BookScreen } from "./src/screens/BookScreen";
 import { colors } from "./src/theme";
 import type { RootStackParamList, TabParamList } from "./src/types";
@@ -34,6 +35,7 @@ function Tabs() {
             Home: ["home", "home-outline"],
             Search: ["search", "search-outline"],
             Card: ["card", "card-outline"],
+            Contact: ["mail", "mail-outline"],
             Profile: ["person", "person-outline"],
           };
           const [filled, outline] = icons[route.name] ?? ["ellipse", "ellipse-outline"];
@@ -44,6 +46,7 @@ function Tabs() {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="Card" component={CardScreen} options={{ title: "My Card" }} />
+      <Tab.Screen name="Contact" component={ContactScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
