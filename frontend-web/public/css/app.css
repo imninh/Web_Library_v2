@@ -154,7 +154,8 @@
 .form-row { margin-bottom: 16px; }
 
 /* ---------- FOOTER ---------- */
-#footer { margin-top: 60px; background: var(--ink); color: var(--cream); }
+#footer { margin-top: 60px; background: #3d4a2a; color: var(--cream); transition: background .6s ease; }
+body.hero-kids #footer { background: #1e3f42; }
 .foot-inner { display: flex; justify-content: space-between; gap: 40px; padding: 54px 28px 30px; flex-wrap: wrap; }
 .foot-brand .brand { color: var(--cream); }
 .foot-brand p { color: rgba(251,252,245,.7); max-width: 300px; margin: 12px 0 0; }
@@ -175,6 +176,11 @@
 .promo-body h3 { font-family: var(--font-head); font-size: 26px; margin: 0; }
 .promo-body p { color: var(--ink-soft); line-height: 1.55; margin: 0 0 8px; }
 .promo-body .btn-lime { padding: 14px 26px; font-size: 15px; align-self: flex-start; }
+.promo-actions { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+.promo-link { background: none; border: none; padding: 4px 2px; font-size: 13px; font-family: inherit; cursor: pointer; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.promo-link:hover { color: var(--ink-soft); }
+.promo-link--mute { color: var(--ink-soft); }
+.promo-sep { color: var(--ink-soft); font-size: 13px; }
 
 /* ---------- GENERIC MODAL ---------- */
 .modal-card { background: var(--surface); border-radius: var(--r-xl); max-width: 460px; width: 100%; padding: 34px 30px; position: relative; box-shadow: var(--shadow-pop); }

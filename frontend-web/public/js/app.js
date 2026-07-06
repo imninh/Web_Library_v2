@@ -155,13 +155,13 @@
     });
   });
 
-  /* ---------- Promotional popup after 1 minute (coursework) + cookie ---------- */
+  /* ---------- Promotional popup after 1 minute (session-only) ---------- */
   function schedulePromo() {
-    if (U.getCookie("librumi_promo_closed") === "1") return;
+    if (sessionStorage.getItem("librumi_promo_closed") === "1") return;
     setTimeout(function () { showPromo(); }, 60 * 1000); // exactly after 1 minute
   }
   async function showPromo() {
-    if (U.getCookie("librumi_promo_closed") === "1") return;
+    if (sessionStorage.getItem("librumi_promo_closed") === "1") return;
     var res = await window.Store.books({ featured: 1 });
     var book = (res.items || [])[0]; if (!book) return;
     var root = document.getElementById("modal-root");
@@ -170,9 +170,9 @@
       ? "background:#e9e9e4 center/cover no-repeat;background-image:url('" + U.esc(book.image) + "')"
       : "background:linear-gradient(150deg," + cov[0] + "," + cov[1] + ")";
     root.innerHTML =
-      '<div class="modal-overlay" data-close-promo>' +
+      '<div class="modal-overlay">' +
       '  <div class="promo pop-anim" role="dialog" aria-label="Featured book">' +
-      '    <button class="promo-x" data-close-promo aria-label="Close">✕</button>' +
+      '    <button class="promo-x" data-promo-later aria-label="Close">✕</button>' +
       '    <div class="promo-cover" style="' + coverBg + '">' +
       '       <div class="sticker sticker--coral" aria-label="Featured">Feat<br>ured</div>' +
       '       ' + (book.image ? '' : '<span>' + U.esc(book.title) + '</span>') +
@@ -181,18 +181,23 @@
       '      <span class="eyebrow">Featured today</span>' +
       '      <h3 class="font-head">' + U.esc(book.title) + '</h3>' +
       '      <p>' + U.esc(U.truncate(book.description, 130)) + '</p>' +
-      '      <button class="btn-lime" data-nav="/book/' + book.id + '" data-close-promo-soft>View & borrow now ' + U.arrow("#1b3a31", 18) + '</button>' +
+      '      <button class="btn-lime" data-nav="/book/' + book.id + '" data-promo-cta>View & borrow now ' + U.arrow("#1b3a31", 18) + '</button>' +
+      '      <div class="promo-actions">' +
+      '        <button type="button" class="promo-link" data-promo-later>Not now</button>' +
+      '        <span class="promo-sep">·</span>' +
+      '        <button type="button" class="promo-link promo-link--mute" data-promo-off>Don\'t show again</button>' +
+      '      </div>' +
       '    </div>' +
       '  </div>' +
       '</div>';
-    root.querySelectorAll("[data-close-promo]").forEach(function (el) {
-      el.addEventListener("click", function (ev) {
-        if (ev.target.closest("[data-close-promo-soft]")) return;
-        U.setCookie("librumi_promo_closed", "1", 30); // do not show again next time
-        root.innerHTML = "";
-      });
-    });
-    var goBtn = root.querySelector("[data-close-promo-soft]");
+    function closeLater() { root.innerHTML = ""; schedulePromo(); }
+    function closeOff() { sessionStorage.setItem("librumi_promo_closed", "1"); root.innerHTML = ""; }
+    var overlay = root.querySelector(".modal-overlay");
+    overlay.addEventListener("click", function (ev) { if (ev.target === overlay) closeLater(); });
+    root.querySelectorAll("[data-promo-later]").forEach(function (el) { el.addEventListener("click", closeLater); });
+    var offBtn = root.querySelector("[data-promo-off]");
+    if (offBtn) offBtn.addEventListener("click", closeOff);
+    var goBtn = root.querySelector("[data-promo-cta]");
     if (goBtn) goBtn.addEventListener("click", function () { root.innerHTML = ""; });
   }
 
