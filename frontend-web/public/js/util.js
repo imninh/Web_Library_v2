@@ -1,6 +1,4 @@
-/* ============================================================
-   Librumi - tiện ích dùng chung (tự viết)
-   ============================================================ */
+/* Tiện ích dùng chung */
 (function () {
   "use strict";
   var U = {};
@@ -40,7 +38,7 @@
     return d.toLocaleDateString("vi-VN");
   };
 
-  /* ---- Cookie (dùng cho popup "không hiện lại") ---- */
+  /* Cookie (dùng cho popup "không hiện lại") */
   U.setCookie = function (name, value, days) {
     var exp = "";
     if (days) { var d = new Date(); d.setTime(d.getTime() + days * 864e5); exp = "; expires=" + d.toUTCString(); }
@@ -51,7 +49,7 @@
     return m ? decodeURIComponent(m[1]) : null;
   };
 
-  /* ---- Toast ---- */
+  /* Toast */
   U.toast = function (msg, type) {
     var root = document.getElementById("toast-root");
     if (!root) return;
@@ -66,7 +64,7 @@
     }, 3200);
   };
 
-  /* ---- ngôi sao đánh giá (SVG) ---- */
+  /*  ngôi sao đánh giá (SVG) */
   U.stars = function (rating, size) {
     size = size || 15; rating = Math.round(rating || 0);
     var out = "";
@@ -94,7 +92,7 @@
     var t; return function () { var a = arguments, c = this; clearTimeout(t); t = setTimeout(function () { fn.apply(c, a); }, ms); };
   };
 
-  /* ---- Generic modal ---- */
+  /* Generic modal*/
   U.modal = function (html, opts) {
     opts = opts || {};
     var root = document.getElementById("modal-root");

@@ -1,4 +1,4 @@
-/* Librumi backend - khởi tạo app, middleware, mount routes, listen (spec §2.2). */
+/* Librumi backend - khởi tạo app, middleware, mount routes, listen. */
 "use strict";
 const express = require("express");
 const path = require("path");
@@ -31,7 +31,7 @@ app.use("/uploads", express.static(uploads.UP_DIR));
 const PUBLIC_DIR = path.join(__dirname, "..", "frontend-web", "public");
 app.use(express.static(PUBLIC_DIR));
 
-/* ---- Health (spec §6.9) ---- */
+/* ---- Health ---- */
 app.get("/api/health", async (req, res) => {
   let bookCount = 0;
   try { bookCount = (await db.get("SELECT COUNT(*) c FROM books")).c; } catch (e) {}

@@ -1,4 +1,4 @@
-/* Bình luận & đánh giá (spec §6.4) - async cho Postgres. */
+/* Bình luận & đánh giá - async cho Postgres. */
 "use strict";
 const express = require("express");
 const db = require("../../db");

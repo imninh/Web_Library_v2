@@ -1,6 +1,4 @@
-/* ============================================================
-   Librumi - Account (reader profile + my loans)
-   ============================================================ */
+/* Trang tài khoản: hồ sơ bạn đọc + phiếu mượn */
 (function () {
   "use strict";
   window.Pages = window.Pages || {};

@@ -1,6 +1,4 @@
-/* ============================================================
-   Librumi - Book detail page (content by id) + comments/ratings
-   ============================================================ */
+/* Trang chi tiết sách (theo id) + bình luận/đánh giá */
 (function () {
   "use strict";
   window.Pages = window.Pages || {};

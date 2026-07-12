@@ -1,5 +1,4 @@
-/* Dev static server (chỉ để xem preview frontend khi chưa bật backend).
-   Không phụ thuộc thư viện. Khi backend chạy, chính Express sẽ phục vụ public/. */
+/* Dev static server: xem preview frontend khi chưa bật backend */
 const http = require("http");
 const fs = require("fs");
 const path = require("path");

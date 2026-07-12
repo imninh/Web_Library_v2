@@ -1,4 +1,3 @@
-/* Global error handler + 404 (spec §9.2). Thông báo tiếng Việt, UTF-8. */
 "use strict";
 
 function notFound(req, res) {

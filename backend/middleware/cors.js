@@ -1,5 +1,3 @@
-/* CORS - TỰ VIẾT (không dùng gói cors). Spec §10.
-   Dev: cho phép mọi origin. Prod: chỉ origin trong CORS_ORIGINS, kèm credentials. */
 "use strict";
 const env = require("../config/env");
 

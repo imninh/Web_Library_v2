@@ -1,113 +1,266 @@
-/* ============================================================
-   Librumi - Animation vocabulary (VIẾT TAY, KHÔNG DÙNG THƯ VIỆN)
-   Tái hiện "cảm giác" chuyển động của voldogfood.com
-   (GSAP + ScrollTrigger + Lenis của họ) bằng CSS + IntersectionObserver.
-   Điều khiển bởi js/anim.js.
-   ============================================================ */
+/* Keyframes */
+@keyframes libPop {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes libFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes libToast {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes heroLoad {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes drawLine {
+  from {
+    stroke-dashoffset: var(--len, 240);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes floatY {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
 
-/* ---- Keyframes (giữ lại vocab gốc của thiết kế Librumi) ---- */
-@keyframes libPop   { from { opacity: 0; transform: translateY(24px) scale(.96); } to { opacity: 1; transform: none; } }
-@keyframes libFade  { from { opacity: 0; } to { opacity: 1; } }
-@keyframes libToast { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
-@keyframes heroLoad { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes drawLine { from { stroke-dashoffset: var(--len, 240); } to { stroke-dashoffset: 0; } }
-@keyframes spin     { to { transform: rotate(360deg); } }
-@keyframes floatY   { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-
-/* ---- 1. Scroll reveal ([data-rev]) - thay animation-timeline bằng IO
-   để chạy được trên mọi trình duyệt, có stagger như .reveal của voldog ---- */
+/* Hiệu ứng hiện khi cuộn */
 .anim-on [data-rev] {
   opacity: 0;
   transform: translateY(38px);
-  transition: opacity .7s var(--ease-soft), transform .7s var(--ease-soft);
+  transition:
+    opacity 0.7s var(--ease-soft),
+    transform 0.7s var(--ease-soft);
   will-change: opacity, transform;
 }
-.anim-on [data-rev="left"]  { transform: translateX(-34px); }
-.anim-on [data-rev="right"] { transform: translateX(34px); }
-.anim-on [data-rev="scale"] { transform: scale(.92); }
-.anim-on [data-rev].is-in { opacity: 1; transform: none; }
+.anim-on [data-rev="left"] {
+  transform: translateX(-34px);
+}
+.anim-on [data-rev="right"] {
+  transform: translateX(34px);
+}
+.anim-on [data-rev="scale"] {
+  transform: scale(0.92);
+}
+.anim-on [data-rev].is-in {
+  opacity: 1;
+  transform: none;
+}
 
-/* ---- 2. Hero load (chạy 1 lần khi vào trang) ---- */
-.hero-load { animation: heroLoad .9s var(--ease-soft) both; }
-.hero-load--2 { animation-delay: .12s; }
-.hero-load--3 { animation-delay: .24s; }
+/* Hiệu ứng tải hero */
+.hero-load {
+  animation: heroLoad 0.9s var(--ease-soft) both;
+}
+.hero-load--2 {
+  animation-delay: 0.12s;
+}
+.hero-load--3 {
+  animation-delay: 0.24s;
+}
 
-/* ---- 3. Split-title: chữ hiện theo từng TỪ (word wave) - dấu ấn voldog ---- */
+/* Tiêu đề hiện theo từng từ */
 .anim-on .split-title .word {
   display: inline-block;
   opacity: 0;
   transform: translateY(115%) rotate(4deg);
-  transition: opacity .6s var(--ease-soft), transform .6s var(--ease-soft);
+  transition:
+    opacity 0.6s var(--ease-soft),
+    transform 0.6s var(--ease-soft);
   transition-delay: var(--wd, 0ms);
   will-change: opacity, transform;
 }
-.split-title .word { display: inline-block; }
-.split-title .word > span { display: inline-block; } /* giữ khối cho từ */
-.split-title.is-in .word { opacity: 1; transform: none; }
-/* bọc mỗi dòng để chữ trượt lên bị cắt gọn (overflow) như voldog */
-.split-title .linew { display: block; overflow: hidden; }
+.split-title .word {
+  display: inline-block;
+}
+.split-title .word > span {
+  display: inline-block;
+}
+.split-title.is-in .word {
+  opacity: 1;
+  transform: none;
+}
+/* Bọc dòng để cắt gọn chữ */
+.split-title .linew {
+  display: block;
+  overflow: hidden;
+}
 
-/* ---- 4. Draw-path SVG: vẽ nét theo scroll ([data-draw]) ---- */
+/* Vẽ nét SVG theo cuộn */
 .anim-on [data-draw] {
   stroke-dasharray: var(--len, 240);
   stroke-dashoffset: var(--len, 240);
 }
-.anim-on [data-draw].is-in { animation: drawLine 1.3s var(--ease-out) forwards; }
+.anim-on [data-draw].is-in {
+  animation: drawLine 1.3s var(--ease-out) forwards;
+}
 
-/* ---- 5. Stagger children (.stagger > *) ---- */
+/* Hiệu ứng lần lượt phần tử con */
 .anim-on .stagger > * {
   opacity: 0;
   transform: translateY(26px);
-  transition: opacity .6s var(--ease-soft), transform .6s var(--ease-soft);
+  transition:
+    opacity 0.6s var(--ease-soft),
+    transform 0.6s var(--ease-soft);
   transition-delay: var(--sd, 0ms);
 }
-.anim-on .stagger.is-in > * { opacity: 1; transform: none; }
+.anim-on .stagger.is-in > * {
+  opacity: 1;
+  transform: none;
+}
 
-/* ---- 6. Cursor follower (tự viết, ẩn trên thiết bị cảm ứng) ---- */
+/* Con trỏ đi theo chuột */
 .cursor-dot {
-  position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none;
-  width: 10px; height: 10px; border-radius: 50%; background: var(--ink);
-  transform: translate(-50%, -50%); mix-blend-mode: multiply;
-  transition: width .25s var(--ease-out), height .25s var(--ease-out), background .25s;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ink);
+  transform: translate(-50%, -50%);
+  mix-blend-mode: multiply;
+  transition:
+    width 0.25s var(--ease-out),
+    height 0.25s var(--ease-out),
+    background 0.25s;
 }
 .cursor-ring {
-  position: fixed; top: 0; left: 0; z-index: 9998; pointer-events: none;
-  width: 38px; height: 38px; border-radius: 50%;
-  border: 1.5px solid rgba(27, 58, 49, .35);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9998;
+  pointer-events: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(27, 58, 49, 0.35);
   transform: translate(-50%, -50%);
-  transition: width .3s var(--ease-out), height .3s var(--ease-out), border-color .3s;
+  transition:
+    width 0.3s var(--ease-out),
+    height 0.3s var(--ease-out),
+    border-color 0.3s;
 }
-body.cursor-hot .cursor-dot { width: 0; height: 0; }
-body.cursor-hot .cursor-ring { width: 58px; height: 58px; border-color: var(--lime-deep); background: rgba(207, 224, 33, .14); }
-@media (hover: none), (pointer: coarse) { .cursor-dot, .cursor-ring { display: none; } }
+body.cursor-hot .cursor-dot {
+  width: 0;
+  height: 0;
+}
+body.cursor-hot .cursor-ring {
+  width: 58px;
+  height: 58px;
+  border-color: var(--lime-deep);
+  background: rgba(207, 224, 33, 0.14);
+}
+@media (hover: none), (pointer: coarse) {
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
+  }
+}
 
-/* ---- 7. Scroll progress bar (top) ---- */
+/* Thanh tiến trình cuộn */
 .scroll-progress {
-  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
   background: linear-gradient(90deg, var(--lime), var(--coral));
-  z-index: 60; transition: width .1s linear;
+  z-index: 60;
+  transition: width 0.1s linear;
 }
 
-/* ---- 8. Magnetic / hover lift (dùng qua class) ---- */
-.lift { transition: transform .3s var(--ease-out), box-shadow .3s ease; }
-.lift:hover { transform: translateY(-3px); box-shadow: var(--shadow-pop); }
-.magnetic { transition: transform .25s var(--ease-out); will-change: transform; }
+/* Hiệu ứng nâng khi rê chuột */
+.lift {
+  transition:
+    transform 0.3s var(--ease-out),
+    box-shadow 0.3s ease;
+}
+.lift:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-pop);
+}
+.magnetic {
+  transition: transform 0.25s var(--ease-out);
+  will-change: transform;
+}
 
-/* ---- 9. Parallax float (data-parallax, điều khiển bằng JS) ---- */
-[data-parallax] { will-change: transform; }
+/* Hiệu ứng parallax */
+[data-parallax] {
+  will-change: transform;
+}
 
-/* ---- 10. Page transition (SPA route change) ---- */
-.route-fade { animation: libFade .4s var(--ease-out) both; }
+/* Chuyển trang (SPA) */
+.route-fade {
+  animation: libFade 0.4s var(--ease-out) both;
+}
 
-/* ---- Toast + popup ---- */
-.toast-anim { animation: libToast .35s var(--ease-out) both; }
-.pop-anim   { animation: libPop .45s var(--ease-soft) both; }
+/* Toast + popup */
+.toast-anim {
+  animation: libToast 0.35s var(--ease-out) both;
+}
+.pop-anim {
+  animation: libPop 0.45s var(--ease-soft) both;
+}
 
-/* ---- Tôn trọng người dùng tắt hiệu ứng ---- */
+/* Tôn trọng chế độ giảm hiệu ứng */
 @media (prefers-reduced-motion: reduce) {
-  * { scroll-behavior: auto !important; }
-  [data-rev], .split-title .word, .stagger > * { opacity: 1 !important; transform: none !important; transition: none !important; }
-  [data-draw] { stroke-dashoffset: 0 !important; animation: none !important; }
-  .hero-load { animation: none !important; }
-  .cursor-dot, .cursor-ring { display: none !important; }
+  * {
+    scroll-behavior: auto !important;
+  }
+  [data-rev],
+  .split-title .word,
+  .stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  [data-draw] {
+    stroke-dashoffset: 0 !important;
+    animation: none !important;
+  }
+  .hero-load {
+    animation: none !important;
+  }
+  .cursor-dot,
+  .cursor-ring {
+    display: none !important;
+  }
 }

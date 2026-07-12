@@ -1,4 +1,4 @@
-/* Auth endpoints (spec §6.1) - async cho Postgres. */
+/* Auth endpoints - async cho Postgres. */
 "use strict";
 const express = require("express");
 const db = require("../../db");

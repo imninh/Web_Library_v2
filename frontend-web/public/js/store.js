@@ -1,13 +1,8 @@
-/* ============================================================
-   Librumi - Store: client state + data layer.
-   When backend is online -> real API (js/api.js).
-   When no backend -> MOCK data for previewing UI + animation.
-   Same shape as spec §6 so pages don't change when switching to API.
-   ============================================================ */
+/* Store: state phía client + lớp dữ liệu (API thật, hoặc mock khi offline) */
 (function () {
   "use strict";
 
-  /* ---------- Mock data (preview only, used when offline) ---------- */
+  /*Mock data (preview only, used when offline) */
   var COVERS = [
     ["#93a163", "#84924f"], ["#e8735a", "#c9553d"], ["#4a6c8c", "#35506b"],
     ["#b9852f", "#8a611f"], ["#6b7a8f", "#4c5766"], ["#a0553f", "#7d3f2d"],
@@ -38,7 +33,7 @@
     ]
   };
 
-  /* ---------- Store ---------- */
+  /* Store */
   var Store = {
     online: false,
     user: null,                 // { id, username, role, profile_complete, account_status, ... }
@@ -52,7 +47,7 @@
     isAdmin: function () { return this.user && this.user.role === "admin"; },
     isLoggedIn: function () { return !!this.user; },
 
-    /* ----- Auth ----- */
+    /*Auth ----- */
     async refreshMe() {
       if (!this.online) return this.user;
       var r = await window.api.get("/auth/me");

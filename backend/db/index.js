@@ -1,11 +1,3 @@
-/* Adapter Postgres (Supabase) - interface async: query/get/run/tx/init.
-   Tự dịch cú pháp kiểu SQLite sang Postgres để hạn chế sửa câu SQL:
-   - "?"                       -> $1,$2,...
-   - datetime('now')           -> now()
-   - datetime('now','-7 day')  -> (now() + interval '-7 day')
-   - datetime('now', ?)        -> now() + ($n)::interval
-   - INSERT ... (không RETURNING) -> tự thêm "RETURNING id" để lấy lastId
-*/
 "use strict";
 const { Pool, types } = require("pg");
 const fs = require("fs");

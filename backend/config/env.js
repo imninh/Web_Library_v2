@@ -1,4 +1,4 @@
-/* Đọc & validate biến môi trường (spec §2.3). */
+/* Đọc & validate biến môi trường. */
 "use strict";
 const path = require("path");
 

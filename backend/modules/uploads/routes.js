@@ -1,5 +1,3 @@
-/* Upload ảnh bìa (spec §6.8) - nhận base64 data-URI trong JSON (không dùng Multer).
-   Chỉ image/jpeg|png|webp|gif, <= 5MB. Lưu vào <DATA_DIR>/uploads, trả { url }. */
 "use strict";
 const express = require("express");
 const fs = require("fs");

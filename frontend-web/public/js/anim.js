@@ -1,13 +1,4 @@
-/* ============================================================
-   Librumi - Animation engine (TỰ VIẾT, KHÔNG DÙNG THƯ VIỆN)
-   Tái hiện chuyển động của voldogfood.com bằng vanilla:
-   - reveal so le, split-title (chữ theo từng từ), draw-path SVG,
-     count-up, magnetic, parallax, cursor follower, scroll progress.
-   Cơ chế kích hoạt: SCROLL-DRIVEN (getBoundingClientRect) thay vì chỉ
-   dựa IntersectionObserver -> chắc chắn hiện nội dung, không kẹt opacity:0.
-   Cổng an toàn: thêm <html class="anim-on">; nếu JS lỗi, nội dung vẫn hiện.
-   API: window.Anim.refresh() gọi lại sau mỗi lần render route (SPA).
-   ============================================================ */
+/* Engine hiệu ứng chuyển động (vanilla, SPA; gọi lại qua window.Anim.refresh) */
 (function () {
   "use strict";
 
@@ -29,7 +20,7 @@
     return r.top < trigger && r.bottom > 0;
   }
 
-  /* ---- Kích hoạt từng loại ---- */
+  /* Kích hoạt từng loại */
   function activate(item) {
     var el = item.el;
     if (item.type === "rev") {
@@ -39,7 +30,7 @@
     } else if (item.type === "split") {
       el.querySelectorAll(".linew").forEach(function (line, li) {
         line.querySelectorAll(".word").forEach(function (word, wi) {
-          word.style.setProperty("--wd", (200 * li + 42 * wi) + "ms"); // nhịp kiểu voldog
+          word.style.setProperty("--wd", (200 * li + 42 * wi) + "ms");
         });
       });
       el.classList.add("is-in");
@@ -62,7 +53,7 @@
     pending = still;
   }
 
-  /* ---- Count-up ---- */
+  /*Count-up */
   function runCount(el) {
     var target = parseFloat(el.getAttribute("data-count")) || 0;
     var suffix = el.getAttribute("data-suffix") || "";
@@ -79,7 +70,7 @@
     setTimeout(function () { if (el.textContent === "0") el.textContent = target.toLocaleString("en-US") + suffix; }, 1300);
   }
 
-  /* ---- Tách chữ cho split-title ---- */
+  /* Tách chữ cho split-title */
   function splitWords(el) {
     if (el.classList.contains("is-split")) return;
     el.classList.add("is-split");
@@ -111,7 +102,7 @@
     });
   }
 
-  /* ---- Bind (quét phần tử mới, tránh trùng bằng .is-bound) ---- */
+  /*bind (quét phần tử mới, tránh trùng bằng .is-bound)*/
   function bind(scope) {
     scope.querySelectorAll("[data-rev]:not(.is-bound)").forEach(function (el) {
       el.classList.add("is-bound"); pending.push({ el: el, type: "rev" });
@@ -141,7 +132,7 @@
     setTimeout(checkPending, 300);
   }
 
-  /* ---- Magnetic ---- */
+  /* Magnetic */
   function bindMagnetic(scope) {
     if (isTouch) return;
     scope.querySelectorAll("[data-magnetic]:not(.mag-bound)").forEach(function (el) {
@@ -155,7 +146,7 @@
     });
   }
 
-  /* ---- Parallax ---- */
+  /* Parallax */
   var parallaxEls = [];
   function bindParallax(scope) {
     scope.querySelectorAll("[data-parallax]:not(.px-bound)").forEach(function (el) {
@@ -174,7 +165,7 @@
     });
   }
 
-  /* ---- Cursor follower ---- */
+  /*Cursor follower */
   function initCursor() {
     if (isTouch || reduceMotion) return;
     var dot = document.createElement("div"); dot.className = "cursor-dot";
@@ -189,7 +180,7 @@
     document.addEventListener("mouseout", function (e) { if (e.target.closest("a,button,[data-magnetic],input,select,textarea,[role=button],.chip,.book-card,.faq-q")) document.body.classList.remove("cursor-hot"); });
   }
 
-  /* ---- Scroll progress ---- */
+  /*Scroll progress */
   function initProgress() {
     var bar = document.createElement("div"); bar.className = "scroll-progress";
     document.body.appendChild(bar);
@@ -202,7 +193,7 @@
     upd();
   }
 
-  /* ---- Smooth scroll (OPT-IN: <body data-smooth="on">) ---- */
+  /*Smooth scroll (OPT-IN: <body data-smooth="on">) */
   function initSmoothScroll() {
     if (isTouch || reduceMotion) return;
     if (document.body.getAttribute("data-smooth") !== "on") return;
@@ -220,13 +211,13 @@
     }
   }
 
-  /* ---- Vòng lặp nền (parallax) + lắng nghe scroll ---- */
+  /* Vòng lặp nền (parallax) + lắng nghe scroll */
   function onScroll() { checkPending(); updateParallax(); }
   addEventListener("scroll", onScroll, { passive: true });
   addEventListener("resize", onScroll, { passive: true });
   (function bg() { updateParallax(); requestAnimationFrame(bg); })();
 
-  /* ---- Public ---- */
+  /*  Public  */
   function refresh(root) { bind(root || document); }
   window.Anim = { refresh: refresh, check: checkPending, reduceMotion: reduceMotion, isTouch: isTouch };
 

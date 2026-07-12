@@ -1,6 +1,4 @@
-/* ============================================================
-   Librumi - About & Contact (with feedback form - coursework)
-   ============================================================ */
+/* Trang Giới thiệu & Liên hệ (kèm form góp ý) */
 (function () {
   "use strict";
   window.Pages = window.Pages || {};
@@ -53,7 +51,7 @@
     '        <div class="hours-row closed"><span class="hd">Public holidays</span><span class="ht">Closed</span></div>' +
     '      </div>' +
 
-    /* ---- Real map via OpenStreetMap embed (HUST · C7 building) ---- */
+    /* ---- Real map via OpenStreetMap embed (HUST - C7 building) ---- */
     '      <div class="real-map" data-rev style="margin-top:18px">' +
     '        <iframe title="Librumi location map" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=105.8410%2C21.0025%2C105.8490%2C21.0085&amp;layer=mapnik&amp;marker=21.0055%2C105.8455"></iframe>' +
     '        <div class="rm-label">' +

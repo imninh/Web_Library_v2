@@ -1,4 +1,4 @@
-/* Seed idempotent (spec §12): 2 tài khoản demo + vài sách mẫu có bản sao.
+/* Seed idempotent: 2 tài khoản demo + vài sách mẫu có bản sao.
    Chạy lại không nhân đôi dữ liệu. Async cho Postgres. */
 "use strict";
 const db = require("./index");

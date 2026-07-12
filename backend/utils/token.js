@@ -1,5 +1,4 @@
-/* Token phiên tự ký HMAC-SHA256 - TỰ VIẾT (không dùng thư viện JWT). Spec §5.1.
-   Dạng: base64url(payload).base64url(signature) ; payload = { sub, exp } */
+/* Token phiên ký HMAC-SHA256; dạng base64url(payload).base64url(signature) */
 "use strict";
 const crypto = require("crypto");
 const env = require("../config/env");

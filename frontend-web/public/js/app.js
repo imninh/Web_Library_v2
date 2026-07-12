@@ -1,13 +1,11 @@
-/* ============================================================
-   Librumi - App shell & Router (SPA, hash-based, tự viết)
-   ============================================================ */
+/* App shell & Router (SPA, định tuyến bằng hash) */
 (function () {
   "use strict";
   var $app = document.getElementById("app");
   var $nav = document.getElementById("nav");
   var $footer = document.getElementById("footer");
 
-  /* ---------- Parse hash -> route ---------- */
+  /* Parse hash -> route */
   function parse() {
     var h = (location.hash || "#/").replace(/^#/, "");
     var qi = h.indexOf("?");
@@ -27,7 +25,7 @@
     about:   function (c) { return window.Pages.about(c); }
   };
 
-  /* ---------- Nav ---------- */
+  /* Nav */
   function renderNav() {
     var s = window.Store;
     var right = "";
@@ -56,7 +54,7 @@
       '</div>';
   }
 
-  /* ---------- Footer (4 cột + social) ---------- */
+  /*Footer (4 cột + social) */
   function renderFooter() {
     var socialIcon = function (label, path) {
       return '<a href="#" aria-label="' + label + '" title="' + label + '">' +
@@ -99,7 +97,7 @@
       '<div class="wrap foot-bottom">© ' + new Date().getFullYear() + ' Librumi - Made with ♥ for readers.</div>';
   }
 
-  /* ---------- Navigate ---------- */
+  /*Navigate  */
   var navigating = false;
   async function navigate() {
     if (navigating) return; navigating = true;
@@ -121,7 +119,7 @@
     navigating = false;
   }
 
-  /* ---------- Global click delegation ---------- */
+  /*Global click delegation */
   document.addEventListener("click", function (e) {
     var nav = e.target.closest("[data-nav]");
     if (nav) {
@@ -155,7 +153,7 @@
     });
   });
 
-  /* ---------- Promotional popup after 1 minute + cookie ---------- */
+  /*Promotional popup after 1 minute + cookie */
   function schedulePromo() {
     if (U.getCookie("librumi_promo_closed") === "1") return;
     setTimeout(function () { showPromo(); }, 60 * 1000); // exactly after 1 minute
@@ -166,22 +164,38 @@
     var book = (res.items || [])[0]; if (!book) return;
     var root = document.getElementById("modal-root");
     var cov = book.cover || ["#93a163", "#84924f"];
-    var coverBg = book.image
-      ? "background:#e9e9e4 center/cover no-repeat;background-image:url('" + U.esc(book.image) + "')"
-      : "background:linear-gradient(150deg," + cov[0] + "," + cov[1] + ")";
+    var face = book.image
+      ? '<div class="promo-book-face"><img src="' + U.esc(book.image) + '" alt="' + U.esc(book.title) + '" loading="lazy"></div>'
+      : '<div class="promo-book-face promo-book-face--fallback" style="background:linear-gradient(150deg,' + cov[0] + ',' + cov[1] + ')">' +
+        '<span class="promo-fb-cat">' + U.esc(book.category || "") + '</span>' +
+        '<span class="promo-fb-title">' + U.esc(book.title) + '</span>' +
+        '<span class="promo-fb-author">' + U.esc(book.author || "") + '</span>' +
+        '</div>';
+    var avail = Number(book.stock) > 0;
+    var availLabel = avail ? (book.stock + " available") : "On loan";
+    var ratingText = Number(book.rating_count) > 0
+      ? (Number(book.rating).toFixed(1) + " (" + book.rating_count + ")")
+      : "New";
     root.innerHTML =
       '<div class="modal-overlay">' +
       '  <div class="promo pop-anim" role="dialog" aria-label="Featured book">' +
       '    <button class="promo-x" data-promo-off aria-label="Close">✕</button>' +
-      '    <div class="promo-cover" style="' + coverBg + '">' +
-      '       <div class="sticker sticker--coral" aria-label="Featured">Feat<br>ured</div>' +
-      '       ' + (book.image ? '' : '<span>' + U.esc(book.title) + '</span>') +
+      '    <div class="promo-cover">' +
+      '      <span class="promo-chip">Book of the week</span>' +
+      '      <div class="promo-book">' +
+      '        <span class="promo-spine"></span>' +
+      '        ' + face +
+      '      </div>' +
       '    </div>' +
       '    <div class="promo-body">' +
-      '      <span class="eyebrow">Featured today</span>' +
+      '      <div class="promo-tags">' +
+      '        <span class="promo-tag ' + (avail ? "is-avail" : "is-out") + '">' + availLabel + '</span>' +
+      '        <span class="promo-tag promo-tag--rate">★ ' + ratingText + '</span>' +
+      '      </div>' +
       '      <h3 class="font-head">' + U.esc(book.title) + '</h3>' +
-      '      <p>' + U.esc(U.truncate(book.description, 130)) + '</p>' +
-      '      <button class="btn-lime" data-nav="/book/' + book.id + '" data-promo-cta>View & borrow now ' + U.arrow("#1b3a31", 18) + '</button>' +
+      '      <div class="promo-author">by ' + U.esc(book.author || "") + '</div>' +
+      '      <p>' + U.esc(U.truncate(book.description, 150)) + '</p>' +
+      '      <button class="btn-dark promo-cta" data-nav="/book/' + book.id + '" data-promo-cta>Reserve this book ' + U.arrow("#cfe021", 16) + '</button>' +
       '      <div class="promo-actions">' +
       '        <button type="button" class="promo-link" data-promo-later>Not now</button>' +
       '        <span class="promo-sep">·</span>' +
@@ -191,7 +205,7 @@
       '  </div>' +
       '</div>';
     function closeLater() { root.innerHTML = ""; schedulePromo(); }
-    function closeOff() { U.setCookie("librumi_promo_closed", "1", 30); root.innerHTML = ""; }
+    function closeOff() { U.setCookie("librumi_promo_closed", "1", 1); root.innerHTML = ""; }
     var overlay = root.querySelector(".modal-overlay");
     overlay.addEventListener("click", function (ev) { if (ev.target === overlay) closeLater(); });
     root.querySelectorAll("[data-promo-later]").forEach(function (el) { el.addEventListener("click", closeLater); });
@@ -201,7 +215,7 @@
     if (goBtn) goBtn.addEventListener("click", function () { root.innerHTML = ""; });
   }
 
-  /* ---------- Boot ---------- */
+  /*Boot */
   (async function boot() {
     renderFooter();
     await window.Store.init();

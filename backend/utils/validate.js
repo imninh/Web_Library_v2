@@ -1,4 +1,4 @@
-/* Chuẩn hoá & kiểm tra đầu vào - TỰ VIẾT (spec §9.1). */
+/* Chuẩn hoá & kiểm tra dữ liệu đầu vào */
 "use strict";
 
 function cleanText(value, maxLen) {

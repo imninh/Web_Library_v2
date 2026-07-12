@@ -1,4 +1,4 @@
-/* Thống kê & view (spec §6.7) - async cho Postgres. */
+/* Thống kê & view - async cho Postgres. */
 "use strict";
 const express = require("express");
 const db = require("../../db");
@@ -41,7 +41,7 @@ router.post("/stats/views", async (req, res, next) => {
   } catch (e) { next(e); }
 });
 
-/* GET /api/admin/summary - dashboard (spec §6.7) */
+/* GET /api/admin/summary - dashboard */
 router.get("/admin/summary", requireAdmin, async (req, res, next) => {
   try {
     const one = (sql, p = []) => db.get(sql, p);

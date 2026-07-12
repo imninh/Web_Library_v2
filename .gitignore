@@ -5,3 +5,13 @@ backend/uploads/
 **/.env
 .DS_Store
 *.log
+
+# Expo
+frontend-mobile/.expo/
+
+# Binaries / scratch files (không thuộc source)
+*.exe
+/support.js
+/support_1.js
+/image-slot.js
+/*.dc.html

@@ -1,5 +1,4 @@
-/* Băm & so khớp mật khẩu bằng PBKDF2-SHA256 - TỰ VIẾT bằng module `crypto`.
-   Định dạng lưu: pbkdf2_sha256$<iterations>$<salt_base64>$<hash_base64>  (spec §5.1) */
+/* Băm & so khớp mật khẩu PBKDF2-SHA256; lưu dạng pbkdf2_sha256$iter$salt$hash */
 "use strict";
 const crypto = require("crypto");
 

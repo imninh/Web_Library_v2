@@ -1,4 +1,4 @@
-/* Sách & danh mục (spec §6.3, §7.4) - async cho Postgres. */
+/* Sách & danh mục - async cho Postgres. */
 "use strict";
 const express = require("express");
 const db = require("../../db");

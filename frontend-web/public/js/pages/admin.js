@@ -1,8 +1,4 @@
-/* ============================================================
-   Librumi - Admin dashboard + management panels.
-   Coursework: total site views, update content (books), list/delete comments,
-   plus loan approval and contact inbox. All wired to the real API.
-   ============================================================ */
+/* Trang quản trị: lượt xem, quản lý sách, bình luận, phiếu mượn, liên hệ */
 (function () {
   "use strict";
   window.Pages = window.Pages || {};

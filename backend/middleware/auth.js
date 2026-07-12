@@ -1,5 +1,3 @@
-/* Xác thực & phân quyền (spec §4, §5) - async cho Postgres.
-   Nhận token từ cookie httpOnly (web) hoặc Authorization: Bearer (mobile). */
 "use strict";
 const db = require("../db");
 const tokenUtil = require("../utils/token");

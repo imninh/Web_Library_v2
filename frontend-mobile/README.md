@@ -19,11 +19,11 @@ App mobile của Librumi, giao tiếp với backend đã deploy tại `https://w
 5. Mở Expo Go → quét QR → app chạy trực tiếp trên điện thoại (điện thoại và máy tính phải cùng Wi‑Fi). Nếu Wi‑Fi khác nhau: chạy `npx expo start --tunnel`.
 
 ## Chạy trên web preview (kiểm tra nhanh)
-
+   Install react-dom@19.1.0, react-native-web@^0.21.0 by running:
+   npx expo install react-dom react-native-web
 ```bash
 npx expo start --web
 ```
-
 Không cần điện thoại — mở trong trình duyệt.
 
 ## Cấu trúc

@@ -1,6 +1,4 @@
-/* ============================================================
-   Librumi - Home + Catalog pages
-   ============================================================ */
+/* Trang chủ + Danh mục */
 (function () {
   "use strict";
   window.Pages = window.Pages || {};
@@ -147,7 +145,7 @@
     '  <svg viewBox="0 0 1440 46" preserveAspectRatio="none"><path fill="currentColor" d="M0,46 C240,10 480,50 720,26 C960,4 1200,42 1440,20 L1440,46 Z"/></svg>' +
     '</div>' +
 
-    /* ---- REVIEWS (Google-style badge + carousel) ---- */
+    /* ---- REVIEWS (badge + carousel) ---- */
     '<section class="wrap section">' +
     '  <div class="carousel-head" data-rev>' +
     '    <div>' +

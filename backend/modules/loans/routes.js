@@ -1,4 +1,4 @@
-/* Phiếu mượn (spec §6.5, §7.1, §7.2) - async cho Postgres. */
+/* Phiếu mượn - async cho Postgres. */
 "use strict";
 const express = require("express");
 const db = require("../../db");
@@ -15,7 +15,7 @@ async function loanView(l) {
   return l;
 }
 
-/* POST /api/loans (user) - gửi yêu cầu mượn (§7.2) */
+/* POST /api/loans (user) - gửi yêu cầu mượn */
 router.post("/loans", requireAuth, async (req, res, next) => {
   try {
     await overdueAudit.run();
@@ -86,7 +86,7 @@ router.get("/admin/loans", requireAdmin, async (req, res, next) => {
   } catch (e) { next(e); }
 });
 
-/* PATCH /api/admin/loans/:id/status (admin) - duyệt/từ chối/trả (§7.1) */
+/* PATCH /api/admin/loans/:id/status (admin) - duyệt/từ chối/trả */
 router.patch("/admin/loans/:id/status", requireAdmin, async (req, res, next) => {
   try {
     const loan = await db.get("SELECT * FROM loans WHERE id = ?", [req.params.id]);

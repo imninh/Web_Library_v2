@@ -1,4 +1,4 @@
-/* Quét quá hạn & đồng bộ khoá tài khoản (spec §7.5, §8) - async cho Postgres. */
+/* Quét quá hạn & đồng bộ khoá tài khoản - async cho Postgres. */
 "use strict";
 const db = require("../db");
 
