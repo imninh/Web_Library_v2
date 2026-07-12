@@ -11,7 +11,7 @@ export function BookRow({ book, onPress }: { book: Book; onPress: () => void }) 
   return (
     <Pressable onPress={onPress} style={({ pressed }) => [styles.row, pressed && { opacity: 0.75 }]}>
       {book.image ? (
-        <Image source={{ uri: book.image }} style={styles.coverImg} resizeMode="cover" />
+        <Image source={{ uri: book.image }} style={styles.coverImg} resizeMode="contain" />
       ) : (
         <View style={[styles.cover, { backgroundColor: c.bg }]}>
           <Text numberOfLines={3} style={[styles.coverTitle, { color: c.fg }]}>{book.title}</Text>

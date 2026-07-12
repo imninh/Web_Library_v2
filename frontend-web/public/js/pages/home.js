@@ -4,7 +4,7 @@
   window.Pages = window.Pages || {};
 
   function coverStyle(b) {
-    if (b.image) return "background:#e9e9e4 center/cover no-repeat;background-image:url('" + U.esc(b.image) + "')";
+    if (b.image) return "background:#e9e9e4 center/contain no-repeat;background-image:url('" + U.esc(b.image) + "')";
     var c = b.cover || ["#93a163", "#84924f"];
     return "background:linear-gradient(150deg," + c[0] + "," + c[1] + ")";
   }
@@ -451,7 +451,7 @@
       var container = wiz.querySelector(".ideal-books");
       container.innerHTML = items.length ? items.map(function (b) {
         var cov = b.image
-          ? "background:#e9e9e4 center/cover;background-image:url('" + U.esc(b.image) + "')"
+          ? "background:#e9e9e4 center/contain;background-image:url('" + U.esc(b.image) + "')"
           : "background:linear-gradient(150deg," + (b.cover || ["#93a163", "#84924f"])[0] + "," + (b.cover || ["#93a163", "#84924f"])[1] + ")";
         return '<div class="ideal-book" data-nav="/book/' + b.id + '">' +
           '<div class="ib-mini" style="' + cov + '">' + (b.image ? "" : '<span>' + U.esc(U.truncate(b.title, 26)) + '</span>') + '</div>' +

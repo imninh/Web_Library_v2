@@ -98,7 +98,7 @@ export function BookScreen({ route, navigation }: Props) {
           </View>
           <View style={styles.coverBig}>
             {book.image ? (
-              <Image source={{ uri: book.image }} style={styles.coverImage} resizeMode="cover" />
+              <Image source={{ uri: book.image }} style={styles.coverImage} resizeMode="contain" />
             ) : (
               <View style={[styles.coverInner, { backgroundColor: "rgba(255,255,255,.14)", borderColor: "rgba(255,255,255,.25)" }]}>
                 <Text style={[styles.coverTitle, { color: c.fg }]} numberOfLines={4}>{book.title}</Text>

@@ -27,7 +27,7 @@
   }
 
   function cover(b) {
-    if (b.image) return "background:#e9e9e4 center/cover no-repeat;background-image:url('" + U.esc(b.image) + "')";
+    if (b.image) return "background:#e9e9e4 center/contain no-repeat;background-image:url('" + U.esc(b.image) + "')";
     var c = b.cover || ["#93a163", "#84924f"];
     return "background:linear-gradient(150deg," + c[0] + "," + c[1] + ")";
   }
