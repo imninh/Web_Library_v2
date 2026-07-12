@@ -37,7 +37,7 @@ async function req<T>(path: string, opts: RequestInit = {}): Promise<T> {
   return data as T;
 }
 
-/* ---- Auth ---- */
+/* Auth */
 export const authApi = {
   register: (body: { username: string; password: string; full_name?: string; email?: string; library_card_id?: string }) =>
     req<{ token: string; user: { id: number; username: string; role: string }; needs_profile: boolean }>("/auth/register", { method: "POST", body: JSON.stringify(body) }),
@@ -47,14 +47,14 @@ export const authApi = {
   logout: () => req<{ success: boolean }>("/auth/logout", { method: "POST" }),
 };
 
-/* ---- Profile ---- */
+/* Profile */
 export const profileApi = {
   get: () => req<{ profile: User }>("/profile"),
   update: (body: { full_name: string; library_card_id: string; email: string }) =>
     req<{ profile: User; profile_complete: boolean }>("/profile", { method: "PUT", body: JSON.stringify(body) }),
 };
 
-/* ---- Books ---- */
+/* Books */
 export const booksApi = {
   list: (params: { category?: string; search?: string; featured?: number; limit?: number; page?: number } = {}) => {
     const qs = new URLSearchParams();
@@ -66,7 +66,7 @@ export const booksApi = {
   categories: () => req<string[]>("/categories"),
 };
 
-/* ---- Comments ---- */
+/* Comments */
 export const commentsApi = {
   ofBook: (id: number) => req<{ items: Comment[] }>("/books/" + id + "/comments"),
   create: (id: number, body: { name: string; email: string; content: string; rating: number }) =>
@@ -74,7 +74,7 @@ export const commentsApi = {
   reviews: (limit = 9) => req<{ items: (Comment & { book_id: number; book_title: string })[]; summary: { count: number; average: number } }>("/reviews?limit=" + limit),
 };
 
-/* ---- Loans ---- */
+/* Loans */
 export const loansApi = {
   mine: () => req<{ items: Loan[] }>("/loans/me"),
   create: (items: { id: number }[], due_date: string) =>
@@ -84,13 +84,13 @@ export const loansApi = {
     req<{ success: boolean; loan: Loan }>("/admin/loans/" + id + "/status", { method: "PATCH", body: JSON.stringify({ status, reason }) }),
 };
 
-/* ---- Contact ---- */
+/* Contact */
 export const contactApi = {
   send: (body: { name: string; email: string; subject: string; message: string }) =>
     req<{ success: boolean }>("/contact", { method: "POST", body: JSON.stringify(body) }),
 };
 
-/* ---- Health ---- */
+/* Health */
 export const healthApi = {
   check: () => req<{ ok: boolean; bookCount: number }>("/health"),
 };

@@ -29,7 +29,7 @@
       '</article>';
   }
 
-  /* ================= HOME ================= */
+  /* HOME */
   window.Pages.home = async function () {
     var cats = await window.Store.categories();
     var rev = await window.Store.reviews(9);
@@ -41,7 +41,7 @@
     var sum = rev.summary || { count: 0, average: 0 };
 
     var html =
-    /* ---- HERO (video + Readers/Kids toggle) ---- */
+    /* HERO (video + Readers/Kids toggle) */
     '<div style="padding:14px 14px 0">' +
     '<section class="hero" id="hero" data-mode="readers">' +
     '  <div class="hero-teal"></div>' +
@@ -74,10 +74,10 @@
     '</section>' +
     '</div>' +
 
-    /* ---- MARQUEE 1 (dưới hero) ---- */
+    /* MARQUEE 1 (dưới hero) */
     marqueeHtml(false) +
 
-    /* ---- CATEGORY TILES + FILTER STRIP ---- */
+    /* CATEGORY TILES + FILTER STRIP */
     '<section class="wrap" style="margin-top:22px">' +
     '  <h2 class="section-title split-title" style="margin-bottom:6px"><span class="linew">Explore <span class="hl">the library</span></span></h2>' +
     '  <p class="section-sub">Browse by category, or search for a title directly below.</p>' +
@@ -95,12 +95,12 @@
     '  </div>' +
     '</section>' +
 
-    /* ---- IDEAL BOOK FINDER (wizard 3 bước) ---- */
+    /* IDEAL BOOK FINDER (wizard 3 bước) */
     '<section class="wrap" style="margin-top:20px">' +
     '  <div class="ideal-finder" data-rev>' + idealFinderHtml() + '</div>' +
     '</section>' +
 
-    /* ---- CATALOG on home (carousel) ---- */
+    /* CATALOG on home (carousel) */
     '<section class="wrap section" id="home-catalog">' +
     '  <div class="carousel-head" data-rev>' +
     '    <div>' +
@@ -118,12 +118,12 @@
     '  <div id="home-grid" class="book-carousel stagger"></div>' +
     '</section>' +
 
-    /* ---- WAVE (chuyển vào benefits) ---- */
+    /* WAVE (chuyển vào benefits) */
     '<div class="wave" aria-hidden="true" style="color:#f0ece1;background:var(--bg)">' +
     '  <svg viewBox="0 0 1440 46" preserveAspectRatio="none"><path fill="currentColor" d="M0,46 C240,10 480,50 720,26 C960,4 1200,42 1440,20 L1440,46 Z"/></svg>' +
     '</div>' +
 
-    /* ---- BENEFITS (SVG icons + sticker) ---- */
+    /* BENEFITS (SVG icons + sticker) */
     '<section class="section" style="background:#f0ece1;position:relative">' +
     '  <div class="sticker sticker--coral sticker--sm" style="top:-24px;right:8%">New<br>arrivals</div>' +
     '  <div class="wrap">' +
@@ -140,12 +140,12 @@
     '  </div>' +
     '</section>' +
 
-    /* ---- WAVE (chuyển ra khỏi benefits) ---- */
+    /* WAVE (chuyển ra khỏi benefits) */
     '<div class="wave wave--flip" aria-hidden="true" style="color:#f0ece1;background:var(--bg)">' +
     '  <svg viewBox="0 0 1440 46" preserveAspectRatio="none"><path fill="currentColor" d="M0,46 C240,10 480,50 720,26 C960,4 1200,42 1440,20 L1440,46 Z"/></svg>' +
     '</div>' +
 
-    /* ---- REVIEWS (badge + carousel) ---- */
+    /* REVIEWS (badge + carousel) */
     '<section class="wrap section">' +
     '  <div class="carousel-head" data-rev>' +
     '    <div>' +
@@ -170,7 +170,7 @@
     '  </div>' +
     '</section>' +
 
-    /* ---- FAQ (2-col) ---- */
+    /* FAQ (2-col) */
     '<section class="wrap section faq-2col">' +
     '  <div data-rev="left">' +
     '    <h2 class="section-title" style="text-align:left;font-size:38px;line-height:1.1;margin:0">You have<br>questions?<br><span class="hl">We have answers.</span></h2>' +
@@ -184,13 +184,13 @@
     '  </div>' +
     '</section>' +
 
-    /* ---- MARQUEE 2 (đảo chiều, trước footer) ---- */
+    /* MARQUEE 2 (đảo chiều, trước footer) */
     marqueeHtml(true);
 
     return { html: html, mount: mountHome };
   };
 
-  /* ---- Category tiles ---- */
+  /* Category tiles */
   function tileGlyph(kind) {
     var svg = {
       book:   '<svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#1b3a31" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4z"/><path d="M20 4h-6a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h7z"/></svg>',
@@ -218,7 +218,7 @@
     }).join("");
   }
 
-  /* ---- Ideal book finder ---- */
+  /* Ideal book finder */
   function idealFinderHtml() {
     return '<div class="ideal-inner">' +
       '  <div class="ideal-copy">' +
@@ -481,7 +481,7 @@
     });
   }
 
-  /* ================= CATALOG ================= */
+  /* CATALOG */
   window.Pages.catalog = async function (ctx) {
     var qs = {}; var qi = ctx.raw.indexOf("?");
     if (qi >= 0) new URLSearchParams(ctx.raw.slice(qi + 1)).forEach(function (v, k) { qs[k] = v; });

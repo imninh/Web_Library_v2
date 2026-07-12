@@ -97,15 +97,16 @@
     '        <span class="badge-stock ' + (inStock ? "badge-in" : "badge-out") + '" style="margin-left:12px">' + (inStock ? b.stock + " copies available" : "Out of stock") + '</span>' +
     '      </div>' +
     '      <p style="line-height:1.7;font-size:16px;max-width:560px">' + U.esc(b.description) + '</p>' +
-    '      <div style="display:flex;gap:12px;margin-top:24px">' +
-    '        <button class="btn-dark" id="borrow-btn" data-magnetic="0.25"' + (inStock ? "" : " disabled style=\"opacity:.5;cursor:not-allowed\"") + '>' +
-              (inStock ? "Request to borrow" : "Out of stock") + '</button>' +
+    '      <div style="display:flex;gap:12px;margin-top:24px;align-items:center;flex-wrap:wrap">' +
+          (window.Store.isAdmin()
+            ? '<span class="badge-stock badge-out" style="padding:11px 16px">Admins manage the library and can\'t borrow books.</span>'
+            : '<button class="btn-dark" id="borrow-btn" data-magnetic="0.25"' + (inStock ? "" : " disabled style=\"opacity:.5;cursor:not-allowed\"") + '>' + (inStock ? "Request to borrow" : "Out of stock") + '</button>') +
     '        <button class="btn-ghost" data-nav="/catalog">More books</button>' +
     '      </div>' +
     '    </div>' +
     '  </div>' +
 
-    /* ---- Reviews ---- */
+    /* Reviews */
     '  <div style="margin-top:56px;display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start" class="reviews-wrap">' +
     '    <div>' +
     '      <h2 class="section-title split-title" style="text-align:left;font-size:28px"><span class="linew">Comments & ratings</span></h2>' +
@@ -126,7 +127,7 @@
     '    </div>' +
     '  </div>' +
 
-    /* ---- CROSS-SELL: sách cùng thể loại ---- */
+    /* CROSS-SELL: sách cùng thể loại */
     (related.length ?
       '  <div class="carousel-wrap" data-rev style="margin-top:60px">' +
       '    <div class="carousel-head">' +

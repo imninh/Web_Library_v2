@@ -20,6 +20,7 @@ router.post("/loans", requireAuth, async (req, res, next) => {
   try {
     await overdueAudit.run();
     const user = req.user;
+    if (user.role === "admin") return res.status(403).json({ error: "Admins cannot borrow books." });
     const items = Array.isArray(req.body.items) ? req.body.items : null;
     const due_date = req.body.due_date;
     if (!items || !items.length || !due_date) return res.status(400).json({ error: "Book list and due date are required." });

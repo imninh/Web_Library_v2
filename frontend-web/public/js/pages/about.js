@@ -25,7 +25,7 @@
         statCard(s.view_count, "Visits", "rgba(27,58,49,.06)", "#1b3a31") +
     '  </div>' +
 
-    /* ---- Contact ---- */
+    /* Contact */
     '  <div id="contact" style="display:grid;grid-template-columns:0.9fr 1.1fr;gap:44px;align-items:start;margin-top:64px" class="contact-wrap">' +
     '    <div data-rev>' +
     '      <h2 class="section-title split-title" style="text-align:left;font-size:30px"><span class="linew">Get in touch</span></h2>' +
@@ -42,7 +42,7 @@
     '          <span>(084) 24 1234 5678</span></li>' +
     '      </ul>' +
 
-    /* ---- Opening hours ---- */
+    /* Opening hours */
     '      <div class="hours-card" data-rev style="margin-top:22px">' +
     '        <h4>Opening hours</h4>' +
     '        <div class="hours-row"><span class="hd">Mon - Fri</span><span class="ht">08:00 - 20:00</span></div>' +
@@ -51,7 +51,7 @@
     '        <div class="hours-row closed"><span class="hd">Public holidays</span><span class="ht">Closed</span></div>' +
     '      </div>' +
 
-    /* ---- Real map via OpenStreetMap embed (HUST - C7 building) ---- */
+    /* Real map via OpenStreetMap embed (HUST - C7 building) */
     '      <div class="real-map" data-rev style="margin-top:18px">' +
     '        <iframe title="Librumi location map" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=105.8410%2C21.0025%2C105.8490%2C21.0085&amp;layer=mapnik&amp;marker=21.0055%2C105.8455"></iframe>' +
     '        <div class="rm-label">' +

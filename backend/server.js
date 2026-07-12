@@ -26,19 +26,19 @@ if (env.isProd) app.set("trust proxy", 1);
 app.use(cors);
 app.use(express.json({ limit: "6mb" }));
 
-/* ---- Static: uploads + frontend ---- */
+/* Static: uploads + frontend */
 app.use("/uploads", express.static(uploads.UP_DIR));
 const PUBLIC_DIR = path.join(__dirname, "..", "frontend-web", "public");
 app.use(express.static(PUBLIC_DIR));
 
-/* ---- Health ---- */
+/* Health */
 app.get("/api/health", async (req, res) => {
   let bookCount = 0;
   try { bookCount = (await db.get("SELECT COUNT(*) c FROM books")).c; } catch (e) {}
   res.json({ ok: true, service: "librumi", bookCount, time: new Date().toISOString() });
 });
 
-/* ---- API routes (tiền tố /api) ---- */
+/* API routes (tiền tố /api) */
 app.use("/api", authRoutes);
 app.use("/api", profileRoutes);
 app.use("/api", booksRoutes);
@@ -48,19 +48,19 @@ app.use("/api", contactRoutes);
 app.use("/api", statsRoutes);
 app.use("/api", uploads.router);
 
-/* ---- 404 cho /api ---- */
+/* 404 cho /api */
 app.use("/api", notFound);
 
-/* ---- SPA fallback: mọi GET còn lại -> index.html ---- */
+/* SPA fallback: mọi GET còn lại -> index.html */
 app.get("*", (req, res, next) => {
   if (req.path.indexOf("/api") === 0) return next();
   res.sendFile(path.join(PUBLIC_DIR, "index.html"));
 });
 
-/* ---- Global error handler ---- */
+/* Global error handler */
 app.use(errorHandler);
 
-/* ---- Khởi động ---- */
+/* Khởi động */
 async function bootstrap() {
   await db.init();
   await seed(); // idempotent

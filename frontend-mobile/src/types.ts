@@ -59,6 +59,7 @@ export type TabParamList = {
   Search: undefined;
   Card: undefined;
   Contact: undefined;
+  Loans: undefined;
   Profile: undefined;
 };
 

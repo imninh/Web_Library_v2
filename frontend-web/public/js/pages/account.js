@@ -8,6 +8,20 @@
     if (!s.isLoggedIn()) {
       return { html: '<section class="wrap section" style="text-align:center"><h2 class="section-title">You are not signed in</h2><p class="section-sub">Sign in to view your profile and loans.</p><div style="display:flex;justify-content:center"><button class="btn-lime" data-nav="/login">Sign in</button></div></section>' };
     }
+    if (s.isAdmin()) {
+      return {
+        html:
+        '<section class="wrap section">' +
+        '  <span class="eyebrow">Signed in as</span>' +
+        '  <h1 class="section-title split-title" style="text-align:left;font-size:38px;margin:6px 0 10px"><span class="linew">' + U.esc(s.user.username) + '</span></h1>' +
+        '  <p class="section-sub" style="text-align:left;margin:0 0 26px;max-width:560px">You are signed in as a librarian. Admins manage the catalog, loans and comments — reader profiles and borrowing are disabled for this account.</p>' +
+        '  <div style="display:flex;gap:12px;flex-wrap:wrap">' +
+        '    <button class="btn-dark" data-nav="/admin">Open admin dashboard</button>' +
+        '    <button class="btn-ghost" data-action="logout">Log out</button>' +
+        '  </div>' +
+        '</section>'
+      };
+    }
     var u = s.user;
     var loans = [];
     if (s.online) { try { loans = (await window.api.get("/loans/me")).items || []; } catch (e) {} }

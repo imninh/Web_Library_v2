@@ -47,7 +47,7 @@
     isAdmin: function () { return this.user && this.user.role === "admin"; },
     isLoggedIn: function () { return !!this.user; },
 
-    /*Auth ----- */
+    /* Auth */
     async refreshMe() {
       if (!this.online) return this.user;
       var r = await window.api.get("/auth/me");
@@ -77,7 +77,7 @@
       window.api.setToken(null); this.user = null;
     },
 
-    /* ----- Books ----- */
+    /* Books */
     async books(params) {
       params = params || {};
       if (this.online) {
@@ -113,13 +113,13 @@
       return c;
     },
 
-    /* ----- Contact ----- */
+    /* Contact */
     async contact(payload) {
       if (this.online) return window.api.post("/contact", payload);
       return { ok: true };
     },
 
-    /* ----- View stats ----- */
+    /* View stats */
     async views() {
       if (this.online) { try { return (await window.api.get("/stats/views")).view_count || 0; } catch (e) { return 0; } }
       return 18423;
@@ -135,7 +135,7 @@
       if (this.online) { try { await window.api.post("/stats/views", {}); } catch (e) {} }
     },
 
-    /* ----- Reviews (public, cross-book) ----- */
+    /* Reviews (public, cross-book) */
     async reviews(limit) {
       if (this.online) { try { return await window.api.get("/reviews?limit=" + (limit || 9)); } catch (e) { return { items: [], summary: { count: 0, average: 0 } }; } }
       return {
@@ -148,13 +148,13 @@
       };
     },
 
-    /* ----- Loans (user) ----- */
+    /* Loans (user) */
     async requestLoan(bookId, due_date) {
       if (this.online) return window.api.post("/loans", { items: [{ id: bookId }], due_date: due_date });
       return { success: true, created: 1 };
     },
 
-    /* ----- Admin ----- */
+    /* Admin */
     async adminBooks() { return (await this.books({ limit: 100 })).items || []; },
     async createBook(p) { return window.api.post("/books", p); },
     async updateBook(id, p) { return window.api.put("/books/" + id, p); },

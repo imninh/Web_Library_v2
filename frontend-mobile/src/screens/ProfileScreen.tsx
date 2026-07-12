@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator, Pressable, TextInput, KeyboardAvoidingView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { colors, statusMeta } from "../theme";
-import { profileApi, loansApi } from "../api";
+import { colors } from "../theme";
+import { profileApi } from "../api";
 import { useAuth } from "../auth";
 import { useToast } from "../components/Toast";
-import type { Loan } from "../types";
 
 type Mode = "login" | "register";
 
@@ -19,7 +18,8 @@ export function ProfileScreen() {
   const [fullName, setFullName] = useState("");
   const [cardId, setCardId] = useState("");
   const [email, setEmail] = useState("");
-  const [adminLoans, setAdminLoans] = useState<Loan[]>([]);
+
+  const isAdmin = user?.role === "admin";
 
   useEffect(() => {
     if (user) {
@@ -28,16 +28,6 @@ export function ProfileScreen() {
       setEmail(user.email ?? "");
     }
   }, [user]);
-
-  const loadAdminLoans = useCallback(async () => {
-    if (user?.role !== "admin") return;
-    try {
-      const r = await loansApi.adminList();
-      setAdminLoans(r.items);
-    } catch {}
-  }, [user]);
-
-  useEffect(() => { loadAdminLoans(); }, [loadAdminLoans]);
 
   const doAuth = async () => {
     if (!username.trim() || !password) return toast("Fill in username and password.", "err");
@@ -59,14 +49,6 @@ export function ProfileScreen() {
       await profileApi.update({ full_name: fullName.trim(), library_card_id: cardId.trim(), email: email.trim() });
       await refresh();
       toast("Profile saved.");
-    } catch (e: any) { toast(e.message, "err"); }
-  };
-
-  const setStatus = async (id: number, status: "approved" | "rejected" | "returned") => {
-    try {
-      await loansApi.setStatus(id, status);
-      await loadAdminLoans();
-      toast(status === "approved" ? "Loan approved." : status === "rejected" ? "Rejected." : "Book returned.");
     } catch (e: any) { toast(e.message, "err"); }
   };
 
@@ -98,72 +80,35 @@ export function ProfileScreen() {
                 </View>
                 <View>
                   <Text style={styles.userName}>{user.username}</Text>
-                  <Text style={styles.userRole}>{user.role === "admin" ? "Librarian · Admin" : "Reader"}</Text>
+                  <Text style={styles.userRole}>{isAdmin ? "Librarian · Admin" : "Reader"}</Text>
                 </View>
               </View>
 
-              <View style={styles.sectionHead}>
-                <Text style={styles.section}>Library profile</Text>
-                <View style={[styles.statusChip, { backgroundColor: user.account_status === "blocked" ? "#f6dada" : user.profile_complete ? "#d8ecdf" : colors.warnBg }]}>
-                  <Text style={[styles.statusChipT, { color: user.account_status === "blocked" ? "#b23b3b" : user.profile_complete ? "#2f6e57" : colors.warn }]}>
-                    {user.account_status === "blocked" ? "BLOCKED" : user.profile_complete ? "ACTIVE" : "INCOMPLETE"}
+              {isAdmin ? (
+                <View style={styles.adminNote}>
+                  <Text style={styles.adminNoteTitle}>Librarian account</Text>
+                  <Text style={styles.adminNoteText}>
+                    You manage the library from this app. Open the Loans tab to review and approve borrow requests. Reader profiles and borrowing are disabled for admin accounts.
                   </Text>
                 </View>
-              </View>
-
-              <TextInput placeholder="Full name" placeholderTextColor="#8a978c" style={styles.inp} value={fullName} onChangeText={setFullName} />
-              <TextInput placeholder="Library card ID (e.g. LIB-2049)" placeholderTextColor="#8a978c" style={styles.inp} value={cardId} onChangeText={setCardId} autoCapitalize="characters" />
-              <TextInput placeholder="Email" placeholderTextColor="#8a978c" style={styles.inp} value={email} onChangeText={setEmail} autoCapitalize="none" keyboardType="email-address" />
-              <Pressable style={styles.primaryBtn} onPress={saveProfile}>
-                <Text style={styles.primaryBtnT}>Save profile</Text>
-              </Pressable>
-
-              {user.role === "admin" && (
-                <View style={{ marginTop: 24 }}>
+              ) : (
+                <>
                   <View style={styles.sectionHead}>
-                    <Text style={styles.section}>Loan requests</Text>
-                    <View style={[styles.statusChip, { backgroundColor: colors.warnBg }]}>
-                      <Text style={[styles.statusChipT, { color: colors.warn }]}>{adminLoans.filter(l => l.status === "pending").length} PENDING</Text>
+                    <Text style={styles.section}>Library profile</Text>
+                    <View style={[styles.statusChip, { backgroundColor: user.account_status === "blocked" ? "#f6dada" : user.profile_complete ? "#d8ecdf" : colors.warnBg }]}>
+                      <Text style={[styles.statusChipT, { color: user.account_status === "blocked" ? "#b23b3b" : user.profile_complete ? "#2f6e57" : colors.warn }]}>
+                        {user.account_status === "blocked" ? "BLOCKED" : user.profile_complete ? "ACTIVE" : "INCOMPLETE"}
+                      </Text>
                     </View>
                   </View>
-                  <View style={{ gap: 10 }}>
-                    {adminLoans.length === 0 ? (
-                      <Text style={{ color: colors.inkSoft, fontSize: 13, textAlign: "center", padding: 16 }}>No requests.</Text>
-                    ) : adminLoans.map(l => {
-                      const m = statusMeta[l.status] ?? statusMeta.pending;
-                      return (
-                        <View key={l.id} style={styles.adminCard}>
-                          <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: 10, marginBottom: 8 }}>
-                            <View style={{ flex: 1, minWidth: 0 }}>
-                              <Text numberOfLines={1} style={{ fontSize: 14, fontWeight: "700", color: colors.ink }}>{l.book_title ?? "Book #" + l.book_id}</Text>
-                              <Text style={{ fontSize: 11.5, color: colors.inkSoft }}>{l.borrower_name} · due {l.due_date ?? "-"}</Text>
-                            </View>
-                            <View style={[styles.statusChip, { backgroundColor: m.bg }]}>
-                              <Text style={[styles.statusChipT, { color: m.color }]}>{m.label.toUpperCase()}</Text>
-                            </View>
-                          </View>
-                          <View style={{ flexDirection: "row", gap: 8 }}>
-                            {l.status === "pending" && (
-                              <>
-                                <Pressable style={[styles.adminBtn, { backgroundColor: colors.lime }]} onPress={() => setStatus(l.id, "approved")}>
-                                  <Text style={{ fontSize: 12, fontWeight: "700", color: colors.ink }}>Approve</Text>
-                                </Pressable>
-                                <Pressable style={[styles.adminBtn, { borderWidth: 1, borderColor: "rgba(198,69,69,.25)" }]} onPress={() => setStatus(l.id, "rejected")}>
-                                  <Text style={{ fontSize: 12, fontWeight: "600", color: colors.danger }}>Reject</Text>
-                                </Pressable>
-                              </>
-                            )}
-                            {(l.status === "borrowing" || l.status === "overdue") && (
-                              <Pressable style={[styles.adminBtn, { backgroundColor: "#eceae2" }]} onPress={() => setStatus(l.id, "returned")}>
-                                <Text style={{ fontSize: 12, fontWeight: "600", color: colors.ink }}>Returned</Text>
-                              </Pressable>
-                            )}
-                          </View>
-                        </View>
-                      );
-                    })}
-                  </View>
-                </View>
+
+                  <TextInput placeholder="Full name" placeholderTextColor="#8a978c" style={styles.inp} value={fullName} onChangeText={setFullName} />
+                  <TextInput placeholder="Library card ID (e.g. LIB-2049)" placeholderTextColor="#8a978c" style={styles.inp} value={cardId} onChangeText={setCardId} autoCapitalize="characters" />
+                  <TextInput placeholder="Email" placeholderTextColor="#8a978c" style={styles.inp} value={email} onChangeText={setEmail} autoCapitalize="none" keyboardType="email-address" />
+                  <Pressable style={styles.primaryBtn} onPress={saveProfile}>
+                    <Text style={styles.primaryBtnT}>Save profile</Text>
+                  </Pressable>
+                </>
               )}
 
               <Pressable style={styles.logoutBtn} onPress={logout}>
@@ -194,8 +139,9 @@ const styles = StyleSheet.create({
   section: { fontSize: 16, fontWeight: "700", color: colors.ink },
   statusChip: { paddingHorizontal: 11, paddingVertical: 4, borderRadius: 999 },
   statusChipT: { fontSize: 10.5, fontWeight: "700", letterSpacing: 0.4 },
-  adminCard: { backgroundColor: "#fff", borderWidth: 1, borderColor: colors.line, borderRadius: 16, padding: 13 },
-  adminBtn: { flex: 1, alignItems: "center", justifyContent: "center", paddingVertical: 8, borderRadius: 9 },
+  adminNote: { backgroundColor: "#fff", borderWidth: 1, borderColor: colors.line, borderRadius: 16, padding: 16 },
+  adminNoteTitle: { fontSize: 15, fontWeight: "700", color: colors.ink, marginBottom: 6 },
+  adminNoteText: { fontSize: 13.5, lineHeight: 20, color: colors.inkSoft },
   logoutBtn: { borderWidth: 1.5, borderColor: "rgba(198,69,69,.3)", borderRadius: 13, padding: 13, alignItems: "center", marginTop: 22 },
   logoutT: { fontSize: 14, fontWeight: "700", color: colors.danger },
 });

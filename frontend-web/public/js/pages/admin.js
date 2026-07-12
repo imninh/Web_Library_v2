@@ -102,7 +102,7 @@
     };
   };
 
-  /* ================= BOOKS ================= */
+  /* BOOKS */
   async function booksPanel(panel) {
     if (!S().online) return void (panel.innerHTML = offlineNote());
     var books = await S().adminBooks();
@@ -149,7 +149,10 @@
       row("Description", '<textarea class="inp" id="bf-desc" rows="3">' + U.esc(b ? (b.description || "") : "") + '</textarea>') +
       '<button class="btn-lime" id="bf-save" style="width:100%;justify-content:center;padding:13px">' + (isEdit ? "Save changes" : "Create book") + '</button>',
       { wide: true, mount: function (card, close) {
-        card.querySelector("#bf-save").addEventListener("click", async function () {
+        var saveBtn = card.querySelector("#bf-save");
+        var saving = false;
+        saveBtn.addEventListener("click", async function () {
+          if (saving) return;
           var payload = {
             title: card.querySelector("#bf-title").value.trim(),
             author: card.querySelector("#bf-author").value.trim(),
@@ -160,16 +163,25 @@
             description: card.querySelector("#bf-desc").value.trim()
           };
           if (!payload.title || !payload.author || !payload.category) return U.toast("Title, author and category are required.", "error");
+          saving = true;
+          saveBtn.disabled = true;
+          var savedLabel = saveBtn.textContent;
+          saveBtn.textContent = "Saving…";
           try {
             if (isEdit) await S().updateBook(b.id, payload); else await S().createBook(payload);
             close(); U.toast(isEdit ? "Book updated." : "Book created.", "success"); onDone && onDone();
-          } catch (e) { U.toast(e.message, "error"); }
+          } catch (e) {
+            U.toast(e.message, "error");
+            saving = false;
+            saveBtn.disabled = false;
+            saveBtn.textContent = savedLabel;
+          }
         });
       } }
     );
   }
 
-  /* ================= COMMENTS ================= */
+  /* COMMENTS */
   async function commentsPanel(panel) {
     if (!S().online) return void (panel.innerHTML = offlineNote());
     var items = await S().adminComments();
@@ -200,22 +212,23 @@
     });
   }
 
-  /* ================= LOANS ================= */
+  /* LOANS */
   async function loansPanel(panel) {
     if (!S().online) return void (panel.innerHTML = offlineNote());
     var items = await S().adminLoans();
     panel.innerHTML =
       '<div class="admin-panel"><div class="admin-panel-head"><h3>Loans <span class="cnt">' + items.length + '</span></h3></div>' +
-      '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Book</th><th>Borrower</th><th>Due</th><th>Status</th><th></th></tr></thead><tbody>' +
+      '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Book</th><th>Borrower</th><th>Card ID</th><th>Due</th><th>Status</th><th></th></tr></thead><tbody>' +
       (items.length ? items.map(function (l) {
         var actions = "";
         if (l.status === "pending") actions = '<button class="btn-xs ok" data-approve>Approve</button><button class="btn-xs danger" data-reject>Reject</button>';
         else if (l.status === "borrowing" || l.status === "overdue") actions = '<button class="btn-xs ok" data-return>Mark returned</button>';
         else actions = '<button class="btn-xs danger" data-del>Delete</button>';
         return '<tr data-id="' + l.id + '"><td><b>' + U.esc(l.book_title || ("#" + l.book_id)) + '</b></td><td>' + U.esc(l.borrower_name || "") + '</td>' +
+          '<td>' + U.esc(l.library_card_id || "—") + '</td>' +
           '<td>' + U.date(l.due_date) + '</td><td><span class="st-tag st-' + l.status + '">' + l.status + '</span></td>' +
           '<td><div class="tbl-actions">' + actions + '</div></td></tr>';
-      }).join("") : '<tr><td colspan="5" class="tbl-empty">No loans yet.</td></tr>') +
+      }).join("") : '<tr><td colspan="6" class="tbl-empty">No loans yet.</td></tr>') +
       '</tbody></table></div></div>';
 
     panel.querySelectorAll("tr[data-id]").forEach(function (tr) {
@@ -240,7 +253,7 @@
     });
   }
 
-  /* ================= CONTACTS ================= */
+  /* CONTACTS */
   async function contactsPanel(panel) {
     if (!S().online) return void (panel.innerHTML = offlineNote());
     var items = await S().adminContacts();
@@ -254,7 +267,7 @@
       '</tbody></table></div></div>';
   }
 
-  /* ---- helpers ---- */
+  /* helpers */
   function lbl(t) { return '<label class="field-lbl">' + U.esc(t) + '</label>'; }
   function row(label, field) { return '<div class="form-row">' + lbl(label) + field + '</div>'; }
   function confirmModal(title, body, onYes) {

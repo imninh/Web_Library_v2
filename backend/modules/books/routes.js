@@ -75,6 +75,11 @@ router.post("/books", requireAdmin, async (req, res, next) => {
       return res.status(400).json({ error: "Title, author and category are required." });
     const stock = validate.clampInt(req.body.total_stock, 0, 10000, 0);
 
+    const recent = await db.get(
+      "SELECT b.*, " + RATING_SELECT + " FROM books b WHERE b.title = ? AND b.author = ? AND b.created_at > datetime('now','-10 seconds') ORDER BY b.id DESC LIMIT 1",
+      [title, author]);
+    if (recent) return res.status(200).json(shape(recent));
+
     const created = await db.tx(async () => {
       const { lastId } = await db.run(
         "INSERT INTO books (title, author, category, description, image, isbn, publisher, year, featured) VALUES (?,?,?,?,?,?,?,?,?)",

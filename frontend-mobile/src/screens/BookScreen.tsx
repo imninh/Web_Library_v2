@@ -69,6 +69,7 @@ export function BookScreen({ route, navigation }: Props) {
 
   const tapBorrow = () => {
     if (!user) return navigation.navigate("Tabs", { screen: "Profile" });
+    if (user.role === "admin") return toast("Admins can't borrow books.", "err");
     if (!user.profile_complete) return toast("Complete your profile first.", "err");
     if (user.account_status === "blocked") return toast("Account locked - return an overdue book.", "err");
     if (!book || book.stock <= 0) return toast("All copies are on loan.", "err");
@@ -140,13 +141,22 @@ export function BookScreen({ route, navigation }: Props) {
       </ScrollView>
 
       <View style={[styles.bar, { paddingBottom: barBottomPad }]}>
-        <View style={{ flex: 1 }}>
-          <Text style={styles.barNote}>{inStock ? "Availability" : "Waiting list"}</Text>
-          <Text style={styles.barTitle}>{inStock ? `${book.stock} copies free` : "All on loan"}</Text>
-        </View>
-        <Pressable onPress={tapBorrow} style={styles.barBtn}>
-          <Text style={styles.barBtnT}>{!user ? "Sign in" : (!inStock ? "On loan" : "Borrow")}</Text>
-        </Pressable>
+        {user?.role === "admin" ? (
+          <View style={{ flex: 1 }}>
+            <Text style={styles.barNote}>Librarian</Text>
+            <Text style={styles.barTitle}>Admins can't borrow books</Text>
+          </View>
+        ) : (
+          <>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.barNote}>{inStock ? "Availability" : "Waiting list"}</Text>
+              <Text style={styles.barTitle}>{inStock ? `${book.stock} copies free` : "All on loan"}</Text>
+            </View>
+            <Pressable onPress={tapBorrow} style={styles.barBtn}>
+              <Text style={styles.barBtnT}>{!user ? "Sign in" : (!inStock ? "On loan" : "Borrow")}</Text>
+            </Pressable>
+          </>
+        )}
       </View>
 
       <Sheet visible={reviewOpen} onClose={() => setReviewOpen(false)} title="Write a review" subtitle="Minimum 100 characters. Appears publicly right away.">

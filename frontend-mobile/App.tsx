@@ -7,13 +7,14 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-import { AuthProvider } from "./src/auth";
+import { AuthProvider, useAuth } from "./src/auth";
 import { ToastProvider } from "./src/components/Toast";
 import { HomeScreen } from "./src/screens/HomeScreen";
 import { SearchScreen } from "./src/screens/SearchScreen";
 import { CardScreen } from "./src/screens/CardScreen";
 import { ProfileScreen } from "./src/screens/ProfileScreen";
 import { ContactScreen } from "./src/screens/ContactScreen";
+import { LoansAdminScreen } from "./src/screens/LoansAdminScreen";
 import { BookScreen } from "./src/screens/BookScreen";
 import { colors } from "./src/theme";
 import type { RootStackParamList, TabParamList } from "./src/types";
@@ -22,6 +23,8 @@ const Tab = createBottomTabNavigator<TabParamList>();
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 function Tabs() {
+  const { user } = useAuth();
+  const isAdmin = user?.role === "admin";
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -36,6 +39,7 @@ function Tabs() {
             Search: ["search", "search-outline"],
             Card: ["card", "card-outline"],
             Contact: ["mail", "mail-outline"],
+            Loans: ["swap-horizontal", "swap-horizontal-outline"],
             Profile: ["person", "person-outline"],
           };
           const [filled, outline] = icons[route.name] ?? ["ellipse", "ellipse-outline"];
@@ -43,11 +47,21 @@ function Tabs() {
         },
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Search" component={SearchScreen} />
-      <Tab.Screen name="Card" component={CardScreen} options={{ title: "My Card" }} />
-      <Tab.Screen name="Contact" component={ContactScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      {isAdmin ? (
+        <>
+          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="Loans" component={LoansAdminScreen} />
+          <Tab.Screen name="Profile" component={ProfileScreen} />
+        </>
+      ) : (
+        <>
+          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="Search" component={SearchScreen} />
+          <Tab.Screen name="Card" component={CardScreen} options={{ title: "My Card" }} />
+          <Tab.Screen name="Contact" component={ContactScreen} />
+          <Tab.Screen name="Profile" component={ProfileScreen} />
+        </>
+      )}
     </Tab.Navigator>
   );
 }
