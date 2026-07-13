@@ -92,7 +92,7 @@ export function HomeScreen({ navigation }: { navigation: Nav }) {
                   return (
                     <Pressable key={b.id} onPress={() => navigation.navigate("Book", { id: b.id })} style={[styles.featCard, !b.image && { backgroundColor: c.bg }]}>
                       <Wrap {...wrapProps} style={[styles.featInner, !b.image && { backgroundColor: c.bg }]}>
-                        {b.image && <View style={styles.featScrim} />}
+                        {b.image ? <View style={styles.featScrim} /> : null}
                         <View style={styles.featTop}>
                           <Text style={[styles.featCat, { color: b.image ? "rgba(255,255,255,.9)" : c.meta }]}>{b.category.toUpperCase()}</Text>
                           <View style={styles.featBadge}><Text style={styles.featBadgeText}>FEATURED</Text></View>

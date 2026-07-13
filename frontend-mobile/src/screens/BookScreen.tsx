@@ -114,9 +114,9 @@ export function BookScreen({ route, navigation }: Props) {
           <View style={styles.pills}>
             <View style={[styles.pill, { borderColor: inStock ? colors.success : "#c0803a", borderWidth: 1.5 }]}><Text style={[styles.pillT, { color: inStock ? colors.success : "#c0803a" }]}>{inStock ? `${book.stock} available` : "On loan"}</Text></View>
             <View style={[styles.pill, styles.pillMuted]}><Text style={styles.pillMutedT}>★ {rateText}</Text></View>
-            {book.year && <View style={[styles.pill, styles.pillMuted]}><Text style={styles.pillMutedT}>{book.year}</Text></View>}
+            {book.year ? <View style={[styles.pill, styles.pillMuted]}><Text style={styles.pillMutedT}>{book.year}</Text></View> : null}
           </View>
-          {book.description && <Text style={styles.desc}>{book.description}</Text>}
+          {book.description ? <Text style={styles.desc}>{book.description}</Text> : null}
 
           <View style={styles.reviewsHead}>
             <Text style={styles.reviewsTitle}>Reviews</Text>

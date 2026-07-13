@@ -16,7 +16,7 @@ export function Sheet({ visible, onClose, title, subtitle, children }: { visible
             >
               <View style={styles.handle} />
               <Text style={styles.title}>{title}</Text>
-              {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
+              {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
               {children}
             </KeyboardAvoidingView>
           </TouchableWithoutFeedback>

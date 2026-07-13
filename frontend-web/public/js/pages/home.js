@@ -500,31 +500,59 @@
         cats.map(function (c) { return '<button class="chip' + (c === active ? " active" : "") + '" data-cat="' + U.esc(c) + '">' + U.esc(c) + '</button>'; }).join("") +
     '  </div>' +
     '  <div id="cat-grid" class="book-grid stagger"></div>' +
+    '  <div id="cat-more" style="text-align:center;margin:28px 0 10px"></div>' +
     '</section>';
 
     return {
       html: html,
       mount: function (root) {
         var grid = root.querySelector("#cat-grid");
+        var moreWrap = root.querySelector("#cat-more");
         var searchEl = root.querySelector("#cat-search");
         var state = { search: qs.search || "", category: active };
-        async function load() {
-          grid.innerHTML = '<div class="page-loading" style="grid-column:1/-1;min-height:200px"><span class="spinner"></span></div>';
-          var res = await window.Store.books(state);
-          var items = res.items || [];
-          grid.classList.remove("is-bound", "is-in");
-          grid.innerHTML = items.length ? items.map(bookCard).join("") : '<p style="grid-column:1/-1;color:var(--ink-soft)">No matching books found.</p>';
-          if (window.Anim) window.Anim.refresh(grid.parentNode);
-          grid.classList.add("is-in");
+        var PER = 20, page = 1, total = 0, busy = false;
+
+        function renderMore() {
+          var shown = grid.querySelectorAll(".book-card").length;
+          if (shown < total) {
+            moreWrap.innerHTML = '<button class="btn-ghost" id="cat-more-btn">Load more (' + shown + '/' + total + ')</button>';
+            moreWrap.querySelector("#cat-more-btn").addEventListener("click", function () { fetchPage(false); });
+          } else {
+            moreWrap.innerHTML = "";
+          }
         }
-        searchEl.addEventListener("input", U.debounce(function () { state.search = searchEl.value.trim(); load(); }, 250));
+
+        async function fetchPage(reset) {
+          if (busy) return; busy = true;
+          if (reset) { page = 1; grid.innerHTML = '<div class="page-loading" style="grid-column:1/-1;min-height:200px"><span class="spinner"></span></div>'; moreWrap.innerHTML = ""; }
+          else { page += 1; }
+          try {
+            var res = await window.Store.books(Object.assign({}, state, { page: page, limit: PER }));
+            var items = res.items || [];
+            total = res.total != null ? res.total : items.length;
+            if (reset) {
+              grid.classList.remove("is-bound", "is-in");
+              grid.innerHTML = items.length ? items.map(bookCard).join("") : '<p style="grid-column:1/-1;color:var(--ink-soft)">No matching books found.</p>';
+              grid.classList.add("is-in");
+            } else {
+              grid.insertAdjacentHTML("beforeend", items.map(bookCard).join(""));
+            }
+            renderMore();
+            if (window.Anim) window.Anim.refresh(grid.parentNode);
+          } catch (e) {
+            if (reset) grid.innerHTML = '<p style="grid-column:1/-1;color:var(--ink-soft)">Could not load books.</p>';
+          }
+          busy = false;
+        }
+
+        searchEl.addEventListener("input", U.debounce(function () { state.search = searchEl.value.trim(); fetchPage(true); }, 250));
         root.querySelectorAll("#cat-chips .chip").forEach(function (chip) {
           chip.addEventListener("click", function () {
             root.querySelectorAll("#cat-chips .chip").forEach(function (c) { c.classList.remove("active"); });
-            chip.classList.add("active"); state.category = chip.getAttribute("data-cat"); load();
+            chip.classList.add("active"); state.category = chip.getAttribute("data-cat"); fetchPage(true);
           });
         });
-        load();
+        fetchPage(true);
       }
     };
   };

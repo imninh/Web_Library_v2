@@ -216,8 +216,30 @@
   }
 
   /*Boot */
+  function setupToTop() {
+    var btn = document.createElement("button");
+    btn.id = "to-top";
+    btn.setAttribute("aria-label", "Back to top");
+    btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+    document.body.appendChild(btn);
+    function pos() {
+      return Math.max(window.pageYOffset || 0, document.documentElement.scrollTop || 0, document.body.scrollTop || 0);
+    }
+    btn.addEventListener("click", function () {
+      var opt = { top: 0, behavior: "smooth" };
+      try { window.scrollTo(opt); } catch (e) { window.scrollTo(0, 0); }
+      if (document.body.scrollTo) document.body.scrollTo(opt);
+      if (document.documentElement.scrollTo) document.documentElement.scrollTo(opt);
+    });
+    var onScroll = function () { btn.classList.toggle("show", pos() > 400); };
+    window.addEventListener("scroll", onScroll, { capture: true, passive: true });
+    document.addEventListener("scroll", onScroll, { capture: true, passive: true });
+    onScroll();
+  }
+
   (async function boot() {
     renderFooter();
+    setupToTop();
     await window.Store.init();
     window.Store.bumpView();
     await navigate();
